@@ -13,11 +13,18 @@ const createCells = () => {
       cells[r][c] = 0;
     }
   }
+};
 
-  // XXX
-  cells[13][3] = 1;
+const addHardcodedObstacles = () => {
+  if (!cells.length) return;
+
+  // cells[13][3] = 1;
+  // cells[17][4] = 1;
+  // cells[11][6] = 1;
+
+  cells[16][4] = 1;
   cells[17][4] = 1;
-  cells[11][6] = 1;
+  cells[18][4] = 1;
 };
 
 const refreshCells = () => {
@@ -30,6 +37,28 @@ const refreshCells = () => {
   });
 };
 
+const drawSingleCell = (x, y, isFilled = false) => {
+  ctx.beginPath();
+  ctx.rect(x * cellSize, y * cellSize, cellSize, cellSize);
+
+  ctx.font = "10px serif";
+  ctx.strokeText(`${x}:${y}`, x * cellSize, y * cellSize);
+
+  ctx.fillStyle = isFilled ? '#334' : null;
+  ctx.fill();
+  ctx.closePath();
+};
+
+const drawCells = () => {
+  cells.forEach((row, rowIndex) => {
+    row.forEach((cell, cellIndex) => {
+      if (cell) {
+        drawSingleCell(cellIndex, rowIndex, true);
+      }
+    });
+  });
+};
+
 export {
   cells,
   createCells,
@@ -37,4 +66,7 @@ export {
   cellsRowCount,
   cellsColumnCount,
   cellSize,
+  drawCells,
+  drawSingleCell,
+  addHardcodedObstacles,
 };
