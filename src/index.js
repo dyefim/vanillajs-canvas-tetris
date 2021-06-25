@@ -13,7 +13,7 @@ import {
   figureHeight,
   figuresSpawnOffsetLeft,
   figurePosition,
-} from './figure';
+} from './figures/figure';
 
 createCells();
 
