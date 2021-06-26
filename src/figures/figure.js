@@ -1,11 +1,5 @@
 import { canvas, ctx } from '../constants/index';
-import {
-  cells,
-  drawCells,
-  refreshCells,
-  cellsRowCount,
-  cellsColumnCount,
-} from '../cells';
+import { cells, drawCells, refreshCells, cellsColumnCount } from '../cells';
 
 const figure = [
   [2, 2],
@@ -20,9 +14,11 @@ const figureWidth = figure[0].length;
 const figureHeight = figure.length;
 const figuresSpawnOffsetLeft = (cellsColumnCount - figureWidth) / 2;
 
-const figurePosition = { x: figuresSpawnOffsetLeft, y: 10 };
+const initialFigurePosition = { x: figuresSpawnOffsetLeft, y: 0 };
 
-const addFigure = () => {
+let figurePosition = { ...initialFigurePosition };
+
+const makeFigure = () => {
   figure.forEach((row, rowIndex) => {
     row.forEach((cell, cellIndex) => {
       if (cell) {
@@ -30,6 +26,12 @@ const addFigure = () => {
       }
     });
   });
+};
+
+const respawnFigure = () => {
+  figurePosition = { ...initialFigurePosition };
+
+  makeFigure();
 };
 
 const canMove = (direction = 'down') => {
@@ -50,6 +52,10 @@ const canMove = (direction = 'down') => {
 
           const nextCell = nextRow[pointX];
 
+          if (typeof nextCell === 'undefined') {
+            return results.push(false);
+          }
+
           if (point !== 0) {
             results.push(!!nextRow && nextCell !== 1);
           }
@@ -65,6 +71,10 @@ const canMove = (direction = 'down') => {
           const pointX = figurePosition.x + pointIndex;
 
           const nextCell = cells[pointY][pointX + 1];
+
+          if (typeof nextCell === 'undefined') {
+            return results.push(false);
+          }
 
           if (point !== 0) {
             return results.push(nextCell !== 1);
@@ -82,6 +92,10 @@ const canMove = (direction = 'down') => {
           const pointX = figurePosition.x + pointIndex;
 
           const nextCell = cells[pointY][pointX - 1];
+
+          if (typeof nextCell === 'undefined') {
+            return results.push(false);
+          }
 
           if (point !== 0) {
             return results.push(nextCell !== 1);
@@ -103,25 +117,19 @@ const moveFigure = (direction) => {
 
   switch (direction) {
     case 'left': {
-      if (figurePosition.x > 0) {
-        figurePosition.x -= 1;
-      }
+      figurePosition.x -= 1;
       break;
     }
     case 'right': {
-      if (figurePosition.x < cellsColumnCount - figureWidth) {
-        figurePosition.x += 1;
-      }
+      figurePosition.x += 1;
       break;
     }
     default: {
-      if (cellsRowCount > figurePosition.y + figureHeight) {
-        figurePosition.y += 1;
-      }
+      figurePosition.y += 1;
     }
   }
 
-  addFigure();
+  makeFigure();
   drawCells();
 };
 
@@ -131,7 +139,9 @@ export {
   figureHeight,
   figuresSpawnOffsetLeft,
   figurePosition,
-  addFigure,
+  makeFigure,
+  respawnFigure,
   canMove,
   moveFigure,
+  initialFigurePosition,
 };

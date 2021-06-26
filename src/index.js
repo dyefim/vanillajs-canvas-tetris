@@ -1,24 +1,41 @@
-// import { canvas, ctx } from './constants/index';
 import { cells, createCells, drawCells, addHardcodedObstacles } from './cells';
-import { moveFigure, addFigure } from './figures/figure';
+import { moveFigure, makeFigure, respawnFigure } from './figures/figure';
 import { keyDownHandler } from './controls';
+import { figure, figurePosition, canMove } from './figures/figure';
 
 createCells();
 
 const moveTimer = 500;
 
-function draw() {
+const land = () => {
+  figure.forEach((row, rowIndex) => {
+    row.forEach((point, pointIndex) => {
+      const pointY = figurePosition.y + rowIndex;
+      const pointX = figurePosition.x + pointIndex;
+
+      if (point) cells[pointY][pointX] = 1;
+    });
+  });
+};
+
+function play() {
   drawCells();
+
   addHardcodedObstacles();
 
-  addFigure();
+  makeFigure();
 
-  setInterval(() => moveFigure('down'), moveTimer);
+  setInterval(() => {
+    if (canMove('down')) {
+      moveFigure('down');
+    } else {
+      land();
+      respawnFigure();
+    }
+  }, moveTimer);
 
   console.table(cells);
 }
 
-
 document.addEventListener('keydown', keyDownHandler, false);
-document.addEventListener('load', draw());
-// setInterval(draw, 500)
+document.addEventListener('load', play());
