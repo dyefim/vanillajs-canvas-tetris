@@ -8,9 +8,12 @@ import {
 } from '../cells';
 
 const figure = [
+  [2, 2],
   [0, 2],
   [0, 2],
-  [0, 2],
+  // [2, 2],
+  // [2, 0],
+  // [2, 0],
 ];
 
 const figureWidth = figure[0].length;
@@ -32,26 +35,63 @@ const addFigure = () => {
 const canMove = (direction = 'down') => {
   const results = [];
 
-  figure.forEach((row, rowIndex) => {
-    row.forEach((point, pointIndex) => {
-      const pointY = figurePosition.y + rowIndex;
-      const pointX = figurePosition.x + pointIndex;
+  switch (direction) {
+    case 'down': {
+      figure.forEach((row, rowIndex) => {
+        row.forEach((point, pointIndex) => {
+          const pointY = figurePosition.y + rowIndex;
+          const pointX = figurePosition.x + pointIndex;
 
-      const nextRow = cells[pointY + 1];
+          const nextRow = cells[pointY + 1];
 
-      if (!nextRow) {
-        return results.push(false);
-      }
+          if (!nextRow) {
+            return results.push(false);
+          }
 
-      const cellBellow = nextRow[pointX];
+          const nextCell = nextRow[pointX];
 
-      if (point !== 0) {
-        results.push(!!nextRow && cellBellow !== 1);
-      }
-    });
-  });
+          if (point !== 0) {
+            results.push(!!nextRow && nextCell !== 1);
+          }
+        });
+      });
 
-  return results.every((v) => v);
+      return results.every((v) => v);
+    }
+    case 'right': {
+      figure.forEach((row, rowIndex) => {
+        row.forEach((point, pointIndex) => {
+          const pointY = figurePosition.y + rowIndex;
+          const pointX = figurePosition.x + pointIndex;
+
+          const nextCell = cells[pointY][pointX + 1];
+
+          if (point !== 0) {
+            return results.push(nextCell !== 1);
+          }
+        });
+      });
+
+      return results.every((v) => v);
+    }
+
+    case 'left': {
+      figure.forEach((row, rowIndex) => {
+        row.forEach((point, pointIndex) => {
+          const pointY = figurePosition.y + rowIndex;
+          const pointX = figurePosition.x + pointIndex;
+
+          const nextCell = cells[pointY][pointX - 1];
+
+          if (point !== 0) {
+            return results.push(nextCell !== 1);
+          }
+        });
+      });
+
+      return results.every((v) => v);
+    }
+  }
 };
 
 const moveFigure = (direction) => {

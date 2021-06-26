@@ -18,9 +18,12 @@ const createCells = () => {
 const addHardcodedObstacles = () => {
   if (!cells.length) return;
 
-  // cells[13][3] = 1;
-  // cells[17][4] = 1;
-  // cells[11][6] = 1;
+  cells[11][8] = 1;
+
+  // cells[11][2] = 1;
+  cells[13][2] = 1;
+  cells[9][1] = 1;
+
 
   cells[16][4] = 1;
   cells[17][4] = 1;
@@ -41,6 +44,7 @@ const drawSingleCell = (x, y, isFilled = false) => {
   ctx.beginPath();
   ctx.rect(x * cellSize, y * cellSize, cellSize, cellSize);
 
+  //  TODO: remove coordinates hints
   ctx.font = "10px serif";
   ctx.strokeText(`${x}:${y}`, x * cellSize, y * cellSize);
 

@@ -12,7 +12,7 @@ function draw() {
 
   addFigure();
 
-  setInterval(() => moveFigure('down'), moveTimer);
+  setInterval(() => moveFigure('left'), moveTimer);
 
   console.table(cells);
 }
