@@ -6,10 +6,12 @@ const keyDownHandler = (event) => {
     case 'ArrowRight':
       moveFigure('right');
       break;
+
     case 'Left':
     case 'ArrowLeft':
       moveFigure('left');
       break;
+
     case 'Down':
     case 'ArrowDown':
       moveFigure('down');
