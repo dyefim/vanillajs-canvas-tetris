@@ -1,10 +1,18 @@
 import { moveFigure } from './figures/figure';
 
 const keyDownHandler = (event) => {
-  if (event.key == 'Right' || event.key == 'ArrowRight') {
-    moveFigure('right');
-  } else if (event.key == 'Left' || event.key == 'ArrowLeft') {
-    moveFigure('left');
+  switch (event.key) {
+    case 'Right':
+    case 'ArrowRight':
+      moveFigure('right');
+      break;
+    case 'Left':
+    case 'ArrowLeft':
+      moveFigure('left');
+      break;
+    case 'Down':
+    case 'ArrowDown':
+      moveFigure('down');
   }
 };
 
