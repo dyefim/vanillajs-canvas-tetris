@@ -1,22 +1,19 @@
 import { canvas, ctx } from '../constants/index';
 import { cells, drawCells, refreshCells, cellsColumnCount } from '../cells';
 
-const figure = [
+let figure = [
   [2, 2],
   [0, 2],
   [0, 2],
-  // [2, 2],
-  // [2, 0],
-  // [2, 0],
 ];
 
 const figureWidth = figure[0].length;
 const figureHeight = figure.length;
-const figuresSpawnOffsetLeft = (cellsColumnCount - figureWidth) / 2;
+const figuresSpawnOffsetLeft = Math.floor((cellsColumnCount - figureWidth) / 2);
 
 const initialFigurePosition = { x: figuresSpawnOffsetLeft, y: 0 };
 
-let figurePosition = { ...initialFigurePosition };
+const figurePosition = { ...initialFigurePosition };
 
 const makeFigure = () => {
   figure.forEach((row, rowIndex) => {
@@ -29,7 +26,8 @@ const makeFigure = () => {
 };
 
 const respawnFigure = () => {
-  figurePosition = { ...initialFigurePosition };
+  figurePosition.x = initialFigurePosition.x;
+  figurePosition.y = initialFigurePosition.y;
 
   makeFigure();
 };
@@ -133,6 +131,47 @@ const moveFigure = (direction) => {
   drawCells();
 };
 
+const flip = () => {
+  const canMovePoints = [];
+
+  const flipped = [];
+
+  const shorterSide = Math.min(figureHeight, figureWidth);
+
+  figure.forEach((row, rowIndex) => {
+    row.forEach((cell, cellIndex) => {
+      const i = shorterSide - cellIndex;
+
+      if (!Array.isArray(flipped[i])) flipped[i] = [];
+
+      flipped[i][rowIndex] = figure[rowIndex][cellIndex];
+    });
+  });
+
+  flipped.forEach((row, rowIndex) => {
+    row.forEach((cell, cellIndex) => {
+      if (cell) {
+        canMovePoints.push(
+          cells[figurePosition.y + rowIndex + (figureHeight < figureWidth)][
+            figurePosition.x + cellIndex
+          ] !== 1
+        );
+      }
+    });
+  });
+
+  if (!canMovePoints.every(Boolean)) {
+    return;
+  }
+
+  if (figureHeight < figureWidth) {
+    figurePosition.x += 1;
+  }
+
+  figure = flipped;
+  // .map((r) => r.reverse()).reverse();
+};
+
 export {
   figure,
   figureWidth,
@@ -143,5 +182,6 @@ export {
   respawnFigure,
   canMove,
   moveFigure,
+  flip,
   initialFigurePosition,
 };

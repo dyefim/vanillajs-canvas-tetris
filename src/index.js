@@ -5,7 +5,7 @@ import { figure, figurePosition, canMove } from './figures/figure';
 
 createCells();
 
-const moveTimer = 500;
+const moveTimer = 1000;
 
 const land = () => {
   figure.forEach((row, rowIndex) => {
@@ -28,6 +28,7 @@ function play() {
   setInterval(() => {
     if (canMove('down')) {
       moveFigure('down');
+      // console.log(figurePosition);
     } else {
       land();
       respawnFigure();

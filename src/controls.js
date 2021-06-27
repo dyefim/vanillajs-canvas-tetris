@@ -1,4 +1,4 @@
-import { moveFigure } from './figures/figure';
+import { moveFigure, flip } from './figures/figure';
 
 const keyDownHandler = (event) => {
   switch (event.key) {
@@ -10,6 +10,11 @@ const keyDownHandler = (event) => {
     case 'Left':
     case 'ArrowLeft':
       moveFigure('left');
+      break;
+
+    case 'Up':
+    case 'ArrowUp':
+      flip();
       break;
 
     case 'Down':
