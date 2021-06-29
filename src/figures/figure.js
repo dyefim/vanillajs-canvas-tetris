@@ -1,14 +1,11 @@
 import { canvas, ctx } from '../constants/index';
 import { cells, drawCells, refreshCells, cellsColumnCount } from '../cells';
+import pickNextFigure from '../utils/pickNextFigure';
 
-let figure = [
-  [2, 2],
-  [0, 2],
-  [0, 2],
-];
+let figure = pickNextFigure();
 
-const figureWidth = figure[0].length;
-const figureHeight = figure.length;
+let figureWidth = figure[0].length;
+let figureHeight = figure.length;
 const figuresSpawnOffsetLeft = Math.floor((cellsColumnCount - figureWidth) / 2);
 
 const initialFigurePosition = { x: figuresSpawnOffsetLeft, y: 0 };
@@ -29,6 +26,7 @@ const respawnFigure = () => {
   figurePosition.x = initialFigurePosition.x;
   figurePosition.y = initialFigurePosition.y;
 
+  figure = pickNextFigure();
   makeFigure();
 };
 
@@ -134,19 +132,9 @@ const moveFigure = (direction) => {
 const flip = () => {
   const canMovePoints = [];
 
-  const flipped = [];
-
-  const shorterSide = Math.min(figureHeight, figureWidth);
-
-  figure.forEach((row, rowIndex) => {
-    row.forEach((cell, cellIndex) => {
-      const i = shorterSide - cellIndex;
-
-      if (!Array.isArray(flipped[i])) flipped[i] = [];
-
-      flipped[i][rowIndex] = figure[rowIndex][cellIndex];
-    });
-  });
+  const flipped = figure[0].map((val, index) =>
+    figure.map((row) => row[index]).reverse()
+  );
 
   flipped.forEach((row, rowIndex) => {
     row.forEach((cell, cellIndex) => {
@@ -164,8 +152,11 @@ const flip = () => {
     return;
   }
 
+  figureWidth = flipped[0].length;
+  figureHeight = flipped.length;
+
   if (figureHeight < figureWidth) {
-    figurePosition.x += 1;
+    // figurePosition.x += 1;
   }
 
   figure = flipped;
