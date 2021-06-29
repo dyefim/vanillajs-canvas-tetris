@@ -1,6 +1,6 @@
 import { canvas, ctx } from './constants/index';
 
-const cells = [];
+let cells = [];
 
 const cellsRowCount = 20;
 const cellsColumnCount = 10;
@@ -18,16 +18,28 @@ const createCells = () => {
 const addHardcodedObstacles = () => {
   if (!cells.length) return;
 
-  cells[11][8] = 1;
-
-  // cells[11][2] = 1;
-  cells[13][2] = 1;
-  cells[9][1] = 1;
-
-
-  cells[16][4] = 1;
-  cells[17][4] = 1;
-  cells[18][4] = 1;
+  cells = [
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 1, 1, 1, 1, 0, 1],
+    [0, 0, 0, 1, 1, 1, 1, 1, 1, 1],
+  ];
 };
 
 const refreshCells = () => {
@@ -45,7 +57,7 @@ const drawSingleCell = (x, y, isFilled = false) => {
   ctx.rect(x * cellSize, y * cellSize, cellSize, cellSize);
 
   //  TODO: remove coordinates hints
-  ctx.font = "10px serif";
+  ctx.font = '10px serif';
   ctx.strokeText(`${x}:${y}`, x * cellSize, y * cellSize);
 
   ctx.fillStyle = isFilled ? '#334' : null;
@@ -63,6 +75,15 @@ const drawCells = () => {
   });
 };
 
+const vanish = () => {
+  cells.forEach((row, index) => {
+    if (row.every((c) => c === 1)) {
+      cells.splice(index, 1);
+      cells.unshift([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+    }
+  });
+};
+
 export {
   cells,
   createCells,
@@ -73,4 +94,5 @@ export {
   drawCells,
   drawSingleCell,
   addHardcodedObstacles,
+  vanish,
 };

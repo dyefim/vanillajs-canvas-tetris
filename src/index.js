@@ -1,4 +1,4 @@
-import { cells, createCells, drawCells, addHardcodedObstacles } from './cells';
+import { cells, createCells, drawCells, addHardcodedObstacles, vanish } from './cells';
 import { moveFigure, makeFigure, respawnFigure } from './figures/figure';
 import { keyDownHandler } from './controls';
 import { figure, figurePosition, canMove } from './figures/figure';
@@ -31,6 +31,7 @@ function play() {
       // console.log(figurePosition);
     } else {
       land();
+      vanish();
       respawnFigure();
     }
   }, moveTimer);
