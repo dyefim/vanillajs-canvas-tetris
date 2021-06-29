@@ -6,7 +6,7 @@ let figure = pickNextFigure();
 
 let figureWidth = figure[0].length;
 let figureHeight = figure.length;
-const figuresSpawnOffsetLeft = Math.floor((cellsColumnCount - figureWidth) / 2);
+let figuresSpawnOffsetLeft = Math.floor((cellsColumnCount - figureWidth) / 2);
 
 const initialFigurePosition = { x: figuresSpawnOffsetLeft, y: 0 };
 
@@ -20,6 +20,10 @@ const makeFigure = () => {
       }
     });
   });
+};
+
+const canSpawnFigure = () => {
+  return cells[1][figuresSpawnOffsetLeft] !== 1
 };
 
 const respawnFigure = () => {
@@ -154,6 +158,9 @@ const flip = () => {
 
   figureWidth = flipped[0].length;
   figureHeight = flipped.length;
+  figuresSpawnOffsetLeft = Math.floor(
+    (cellsColumnCount - flipped[0].length) / 2
+  );
 
   if (figureHeight < figureWidth) {
     // figurePosition.x += 1;
@@ -170,7 +177,7 @@ export {
   figuresSpawnOffsetLeft,
   figurePosition,
   makeFigure,
-  respawnFigure,
+  respawnFigure,canSpawnFigure,
   canMove,
   moveFigure,
   flip,

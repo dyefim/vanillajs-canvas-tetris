@@ -1,5 +1,16 @@
-import { cells, createCells, drawCells, addHardcodedObstacles, vanish } from './cells';
-import { moveFigure, makeFigure, respawnFigure } from './figures/figure';
+import {
+  cells,
+  createCells,
+  drawCells,
+  addHardcodedObstacles,
+  vanish,
+} from './cells';
+import {
+  moveFigure,
+  makeFigure,
+  respawnFigure,
+  canSpawnFigure,
+} from './figures/figure';
 import { keyDownHandler } from './controls';
 import { figure, figurePosition, canMove } from './figures/figure';
 
@@ -18,6 +29,8 @@ const land = () => {
   });
 };
 
+let isGameOver = false;
+
 function play() {
   drawCells();
 
@@ -26,13 +39,21 @@ function play() {
   makeFigure();
 
   setInterval(() => {
+    if (isGameOver) return;
+
     if (canMove('down')) {
       moveFigure('down');
       // console.log(figurePosition);
     } else {
       land();
       vanish();
-      respawnFigure();
+      if (canSpawnFigure()) {
+        respawnFigure();
+      } else {
+        isGameOver = true;
+        alert('GAME OVER!');
+        location.reload();
+      }
     }
   }, moveTimer);
 
