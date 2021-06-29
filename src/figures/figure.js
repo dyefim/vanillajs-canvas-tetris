@@ -23,7 +23,7 @@ const makeFigure = () => {
 };
 
 const canSpawnFigure = () => {
-  return cells[1][figuresSpawnOffsetLeft] !== 1
+  return cells[1][figuresSpawnOffsetLeft] !== 1;
 };
 
 const respawnFigure = () => {
@@ -143,11 +143,12 @@ const flip = () => {
   flipped.forEach((row, rowIndex) => {
     row.forEach((cell, cellIndex) => {
       if (cell) {
-        canMovePoints.push(
+        const cellToFill =
           cells[figurePosition.y + rowIndex + (figureHeight < figureWidth)][
             figurePosition.x + cellIndex
-          ] !== 1
-        );
+          ];
+
+        canMovePoints.push(cellToFill !== undefined && cellToFill !== 1);
       }
     });
   });
@@ -162,10 +163,6 @@ const flip = () => {
     (cellsColumnCount - flipped[0].length) / 2
   );
 
-  if (figureHeight < figureWidth) {
-    // figurePosition.x += 1;
-  }
-
   figure = flipped;
   // .map((r) => r.reverse()).reverse();
 };
@@ -177,7 +174,8 @@ export {
   figuresSpawnOffsetLeft,
   figurePosition,
   makeFigure,
-  respawnFigure,canSpawnFigure,
+  respawnFigure,
+  canSpawnFigure,
   canMove,
   moveFigure,
   flip,
