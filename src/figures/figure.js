@@ -42,75 +42,49 @@ const respawnFigure = () => {
 const canMove = (direction = 'down') => {
   const results = [];
 
-  switch (direction) {
-    case 'down': {
-      figure.forEach((row, rowIndex) => {
-        row.forEach((point, pointIndex) => {
-          const pointY = figurePosition.y + rowIndex;
-          const pointX = figurePosition.x + pointIndex;
+  figure.forEach((row, rowIndex) => {
+    row.forEach((point, pointIndex) => {
+      const pointY = figurePosition.y + rowIndex;
+      const pointX = figurePosition.x + pointIndex;
 
+      let nextCell;
+
+      switch (direction) {
+        case 'down': {
           const nextRow = cells[pointY + 1];
 
           if (!nextRow) {
             return results.push(false);
           }
 
-          const nextCell = nextRow[pointX];
+          nextCell = nextRow[pointX];
 
-          if (typeof nextCell === 'undefined') {
-            return results.push(false);
-          }
+          break;
+        }
+        case 'right': {
+          nextCell = cells[pointY][pointX + 1];
 
-          if (point !== 0) {
-            results.push(!!nextRow && nextCell !== 1);
-          }
-        });
-      });
+          break;
+        }
 
-      return results.every((v) => v);
-    }
-    case 'right': {
-      figure.forEach((row, rowIndex) => {
-        row.forEach((point, pointIndex) => {
-          const pointY = figurePosition.y + rowIndex;
-          const pointX = figurePosition.x + pointIndex;
+        case 'left': {
+          nextCell = cells[pointY][pointX - 1];
 
-          const nextCell = cells[pointY][pointX + 1];
+          break;
+        }
+      }
 
-          if (typeof nextCell === 'undefined') {
-            return results.push(false);
-          }
+      if (typeof nextCell === 'undefined') {
+        return results.push(false);
+      }
 
-          if (point !== 0) {
-            return results.push(nextCell !== 1);
-          }
-        });
-      });
+      if (point !== 0) {
+        return results.push(nextCell !== 1);
+      }
+    });
+  });
 
-      return results.every((v) => v);
-    }
-
-    case 'left': {
-      figure.forEach((row, rowIndex) => {
-        row.forEach((point, pointIndex) => {
-          const pointY = figurePosition.y + rowIndex;
-          const pointX = figurePosition.x + pointIndex;
-
-          const nextCell = cells[pointY][pointX - 1];
-
-          if (typeof nextCell === 'undefined') {
-            return results.push(false);
-          }
-
-          if (point !== 0) {
-            return results.push(nextCell !== 1);
-          }
-        });
-      });
-
-      return results.every((v) => v);
-    }
-  }
+  return results.every((v) => v);
 };
 
 const moveFigure = (direction) => {
