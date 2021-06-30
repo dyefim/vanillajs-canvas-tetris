@@ -1,5 +1,5 @@
 import { ctx } from './constants/index';
-import { figureColor } from './figures/figure';
+import tetramino from './tetramino/index';
 import {
   cellSize,
   cellsRowCount,
@@ -40,7 +40,7 @@ const drawSingleCell = (x, y, cellValue = 0) => {
   }
 
   if (cellValue === 2) {
-    ctx.fillStyle = figureColor;
+    ctx.fillStyle = tetramino.color;
   }
 
   ctx.fill();

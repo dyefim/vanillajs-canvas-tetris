@@ -1,4 +1,4 @@
-import tetraminos from '../figures/tetraminos';
+import tetraminos from '../tetramino/tetraminos';
 import getRandomArrayElement from './getRandomArrayElement';
 
 const pickNextFigure = () => getRandomArrayElement(Object.values(tetraminos));

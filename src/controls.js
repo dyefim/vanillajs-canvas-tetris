@@ -1,9 +1,9 @@
-import { moveFigure, rotate, canMove } from './figures/figure';
+import tetramino from './tetramino/index';
 import score from './score';
 import { drawOnOverlay } from './overlay';
 
 const scoreUpForFastDropping = () => {
-  if (canMove()) {
+  if (tetramino.canMove()) {
     score.adjust(1);
     drawOnOverlay();
   }
@@ -13,22 +13,22 @@ const keyDownHandler = (event) => {
   switch (event.key) {
     case 'Right':
     case 'ArrowRight':
-      moveFigure('right');
+      tetramino.move('right');
       break;
 
     case 'Left':
     case 'ArrowLeft':
-      moveFigure('left');
+      tetramino.move('left');
       break;
 
     case 'Up':
     case 'ArrowUp':
-      rotate();
+      tetramino.rotate();
       break;
 
     case 'Down':
     case 'ArrowDown':
-      moveFigure('down');
+      tetramino.move('down');
       scoreUpForFastDropping();
   }
 };
