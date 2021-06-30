@@ -1,10 +1,10 @@
 import {
   cells,
-  createCells,
+  createField,
   drawCells,
-  addHardcodedObstacles,
+  // addHardcodedObstacles,
   vanish,
-} from './cells';
+} from './field';
 import {
   moveFigure,
   makeFigure,
@@ -13,10 +13,11 @@ import {
 } from './figures/figure';
 import { keyDownHandler } from './controls';
 import { figure, figurePosition, canMove } from './figures/figure';
+import { drawOnOverlay } from './overlay';
 
-createCells();
+createField();
 
-const moveTimer = 1000;
+const moveTimer = 500;
 
 const land = () => {
   figure.forEach((row, rowIndex) => {
@@ -33,8 +34,9 @@ let isGameOver = false;
 
 function play() {
   drawCells();
+  drawOnOverlay();
 
-  addHardcodedObstacles();
+  // addHardcodedObstacles();
 
   makeFigure();
 
@@ -43,10 +45,10 @@ function play() {
 
     if (canMove('down')) {
       moveFigure('down');
-      // console.log(figurePosition);
     } else {
       land();
       vanish();
+      drawOnOverlay();
       if (canSpawnFigure()) {
         respawnFigure();
       } else {

@@ -1,12 +1,18 @@
-import { canvas, ctx } from '../constants/index';
-import { cells, drawCells, refreshCells, cellsColumnCount } from '../cells';
+import { canvas } from '../constants/index';
+import { cellsColumnCount } from '../constants/fieldSizes';
+import { cells, drawCells, refreshCells } from '../field';
 import pickNextFigure from '../utils/pickNextFigure';
+import getRandomColor from '../utils/getRandomColor';
+import clearCanvas from '../utils/clearCanvas';
 
 let figure = pickNextFigure();
+let figureColor = getRandomColor();
 
 let figureWidth = figure[0].length;
 let figureHeight = figure.length;
-let figuresSpawnOffsetLeft = Math.floor((cellsColumnCount - figureWidth) / 2);
+let figuresSpawnOffsetLeft = Math.floor(
+  (cellsColumnCount || 10 - figureWidth) / 2
+);
 
 const initialFigurePosition = { x: figuresSpawnOffsetLeft, y: 0 };
 
@@ -31,6 +37,7 @@ const respawnFigure = () => {
   figurePosition.y = initialFigurePosition.y;
 
   figure = pickNextFigure();
+  figureColor = getRandomColor();
   makeFigure();
 };
 
@@ -112,7 +119,7 @@ const moveFigure = (direction) => {
   if (!canMove(direction)) {
     return;
   }
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  clearCanvas(canvas);
   refreshCells();
 
   switch (direction) {
@@ -179,5 +186,6 @@ export {
   canMove,
   moveFigure,
   flip,
+  figureColor,
   initialFigurePosition,
 };

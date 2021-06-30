@@ -1,12 +1,15 @@
-import { canvas, ctx } from './constants/index';
+import { ctx } from './constants/index';
+import { figureColor } from './figures/figure';
+import {
+  cellSize,
+  cellsRowCount,
+  cellsColumnCount,
+} from './constants/fieldSizes';
+import score from './score';
 
 let cells = [];
 
-const cellsRowCount = 20;
-const cellsColumnCount = 10;
-const cellSize = canvas.height / cellsRowCount;
-
-const createCells = () => {
+const createField = () => {
   for (let r = 0; r < cellsRowCount; r++) {
     cells[r] = [];
     for (let c = 0; c < cellsColumnCount; c++) {
@@ -52,15 +55,23 @@ const refreshCells = () => {
   });
 };
 
-const drawSingleCell = (x, y, isFilled = false) => {
+const drawSingleCell = (x, y, cellValue = 0) => {
   ctx.beginPath();
   ctx.rect(x * cellSize, y * cellSize, cellSize, cellSize);
 
   //  TODO: remove coordinates hints
-  ctx.font = '10px serif';
-  ctx.strokeText(`${x}:${y}`, x * cellSize, y * cellSize);
+  // ctx.font = '10px serif';
+  // ctx.strokeText(`${x}:${y}`, x * cellSize, y * cellSize);
 
-  ctx.fillStyle = isFilled ? '#334' : null;
+  if (cellValue === 1) {
+    ctx.fillStyle = '#778';
+  }
+
+  if (cellValue === 2) {
+    ctx.fillStyle = figureColor;
+  }
+
+  // ctx.fillStyle = cellValue === 1 ? '#334' : null;
   ctx.fill();
   ctx.closePath();
 };
@@ -69,7 +80,7 @@ const drawCells = () => {
   cells.forEach((row, rowIndex) => {
     row.forEach((cell, cellIndex) => {
       if (cell) {
-        drawSingleCell(cellIndex, rowIndex, true);
+        drawSingleCell(cellIndex, rowIndex, cell);
       }
     });
   });
@@ -80,19 +91,21 @@ const vanish = () => {
     if (row.every((c) => c === 1)) {
       cells.splice(index, 1);
       cells.unshift([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+
+      score.adjust(100)
     }
   });
 };
 
 export {
   cells,
-  createCells,
+  createField,
   refreshCells,
   cellsRowCount,
   cellsColumnCount,
   cellSize,
   drawCells,
-  drawSingleCell,
+  // drawSingleCell,
   addHardcodedObstacles,
   vanish,
 };

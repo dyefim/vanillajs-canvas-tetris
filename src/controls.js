@@ -1,4 +1,6 @@
 import { moveFigure, flip } from './figures/figure';
+import score from './score';
+import { drawOnOverlay } from './overlay';
 
 const keyDownHandler = (event) => {
   switch (event.key) {
@@ -20,6 +22,8 @@ const keyDownHandler = (event) => {
     case 'Down':
     case 'ArrowDown':
       moveFigure('down');
+      score.adjust(1);
+      drawOnOverlay();
   }
 };
 
