@@ -10,9 +10,7 @@ let figureColor = getRandomColor();
 
 let figureWidth = figure[0].length;
 let figureHeight = figure.length;
-let figuresSpawnOffsetLeft = Math.floor(
-  (cellsColumnCount || 10 - figureWidth) / 2
-);
+let figuresSpawnOffsetLeft = Math.floor((cellsColumnCount - figureWidth) / 2);
 
 const initialFigurePosition = { x: figuresSpawnOffsetLeft, y: 0 };
 
@@ -140,7 +138,7 @@ const moveFigure = (direction) => {
   drawCells();
 };
 
-const flip = () => {
+const rotate = () => {
   const canMovePoints = [];
 
   const flipped = figure[0].map((val, index) =>
@@ -176,16 +174,12 @@ const flip = () => {
 
 export {
   figure,
-  figureWidth,
-  figureHeight,
-  figuresSpawnOffsetLeft,
   figurePosition,
   makeFigure,
   respawnFigure,
   canSpawnFigure,
   canMove,
   moveFigure,
-  flip,
+  rotate,
   figureColor,
-  initialFigurePosition,
 };

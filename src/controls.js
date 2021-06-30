@@ -1,6 +1,13 @@
-import { moveFigure, flip } from './figures/figure';
+import { moveFigure, rotate, canMove } from './figures/figure';
 import score from './score';
 import { drawOnOverlay } from './overlay';
+
+const scoreUpForFastDropping = () => {
+  if (canMove()) {
+    score.adjust(1);
+    drawOnOverlay();
+  }
+};
 
 const keyDownHandler = (event) => {
   switch (event.key) {
@@ -16,14 +23,13 @@ const keyDownHandler = (event) => {
 
     case 'Up':
     case 'ArrowUp':
-      flip();
+      rotate();
       break;
 
     case 'Down':
     case 'ArrowDown':
       moveFigure('down');
-      score.adjust(1);
-      drawOnOverlay();
+      scoreUpForFastDropping();
   }
 };
 

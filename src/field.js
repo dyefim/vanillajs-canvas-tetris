@@ -18,33 +18,6 @@ const createField = () => {
   }
 };
 
-const addHardcodedObstacles = () => {
-  if (!cells.length) return;
-
-  cells = [
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 1, 1, 1, 1, 0, 1],
-    [0, 0, 0, 1, 1, 1, 1, 1, 1, 1],
-  ];
-};
-
 const refreshCells = () => {
   cells.forEach((row, rowIndex) => {
     row.forEach((cell, cellIndex) => {
@@ -59,7 +32,6 @@ const drawSingleCell = (x, y, cellValue = 0) => {
   ctx.beginPath();
   ctx.rect(x * cellSize, y * cellSize, cellSize, cellSize);
 
-  //  TODO: remove coordinates hints
   // ctx.font = '10px serif';
   // ctx.strokeText(`${x}:${y}`, x * cellSize, y * cellSize);
 
@@ -71,7 +43,6 @@ const drawSingleCell = (x, y, cellValue = 0) => {
     ctx.fillStyle = figureColor;
   }
 
-  // ctx.fillStyle = cellValue === 1 ? '#334' : null;
   ctx.fill();
   ctx.closePath();
 };
@@ -86,26 +57,17 @@ const drawCells = () => {
   });
 };
 
+const rewardLineVanishing = () => score.adjust(100);
+
 const vanish = () => {
   cells.forEach((row, index) => {
     if (row.every((c) => c === 1)) {
       cells.splice(index, 1);
-      cells.unshift([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+      cells.unshift(new Array(cellsRowCount).fill(0));
 
-      score.adjust(100)
+      rewardLineVanishing();
     }
   });
 };
 
-export {
-  cells,
-  createField,
-  refreshCells,
-  cellsRowCount,
-  cellsColumnCount,
-  cellSize,
-  drawCells,
-  // drawSingleCell,
-  addHardcodedObstacles,
-  vanish,
-};
+export { cells, createField, refreshCells, drawCells, vanish };

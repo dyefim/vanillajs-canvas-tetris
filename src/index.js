@@ -1,10 +1,4 @@
-import {
-  cells,
-  createField,
-  drawCells,
-  // addHardcodedObstacles,
-  vanish,
-} from './field';
+import { cells, createField, drawCells, vanish } from './field';
 import {
   moveFigure,
   makeFigure,
@@ -17,7 +11,7 @@ import { drawOnOverlay } from './overlay';
 
 createField();
 
-const moveTimer = 500;
+const moveInterval = 500;
 
 const land = () => {
   figure.forEach((row, rowIndex) => {
@@ -32,14 +26,7 @@ const land = () => {
 
 let isGameOver = false;
 
-function play() {
-  drawCells();
-  drawOnOverlay();
-
-  // addHardcodedObstacles();
-
-  makeFigure();
-
+const play = () =>
   setInterval(() => {
     if (isGameOver) return;
 
@@ -57,10 +44,18 @@ function play() {
         location.reload();
       }
     }
-  }, moveTimer);
+  }, moveInterval);
 
-  console.table(cells);
-}
+const game = () => {
+  drawCells();
+  drawOnOverlay();
+
+  makeFigure();
+
+  play();
+
+  // console.table(cells);
+};
 
 document.addEventListener('keydown', keyDownHandler, false);
-document.addEventListener('load', play());
+document.addEventListener('load', game());
