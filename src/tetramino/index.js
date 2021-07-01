@@ -1,12 +1,10 @@
-import { canvas } from '../constants/index';
-import { cellsColumnCount } from '../constants/fieldSizes';
-import { cells, drawCells, refreshCells } from '../field';
+import field from '../field';
 import score from '../score';
 import { drawOnTopOverlay } from '../overlays/topOverlay';
 import getRandomColor from '../utils/getRandomColor';
-import clearCanvas from '../utils/clearCanvas';
 import getRandomArrayElement from '../utils/getRandomArrayElement';
 import tetraminos from './tetraminos';
+import { cellsColumnCount } from '../constants/fieldSize';
 
 class Tetramino {
   constructor() {
@@ -31,14 +29,16 @@ class Tetramino {
     this.tetramino.forEach((row, rowIndex) => {
       row.forEach((cell, cellIndex) => {
         if (cell) {
-          cells[this.position.y + rowIndex][this.position.x + cellIndex] = 2;
+          field.cells[this.position.y + rowIndex][
+            this.position.x + cellIndex
+          ] = 2;
         }
       });
     });
   }
 
   canSpawn() {
-    return cells[1][this.spawnOffsetLeft] !== 1;
+    return field.cells[1][this.spawnOffsetLeft] !== 1;
   }
 
   reset() {
@@ -71,7 +71,7 @@ class Tetramino {
 
         switch (direction) {
           case 'down': {
-            const nextRow = cells[pointY + 1];
+            const nextRow = field.cells[pointY + 1];
 
             if (!nextRow) {
               return results.push(false);
@@ -82,13 +82,13 @@ class Tetramino {
             break;
           }
           case 'right': {
-            nextCell = cells[pointY][pointX + 1];
+            nextCell = field.cells[pointY][pointX + 1];
 
             break;
           }
 
           case 'left': {
-            nextCell = cells[pointY][pointX - 1];
+            nextCell = field.cells[pointY][pointX - 1];
 
             break;
           }
@@ -111,8 +111,8 @@ class Tetramino {
     if (!this.canMove(direction)) {
       return;
     }
-    clearCanvas(canvas);
-    refreshCells();
+    field.clearCanvas();
+    field.refreshCells();
 
     switch (direction) {
       case 'left': {
@@ -129,7 +129,7 @@ class Tetramino {
     }
 
     this.summon();
-    drawCells();
+    field.drawCells();
   }
 
   drop() {
@@ -152,9 +152,9 @@ class Tetramino {
       row.forEach((cell, cellIndex) => {
         if (cell) {
           const cellToFill =
-            cells[this.position.y + rowIndex + (this.heigth < this.width)][
-              this.position.x + cellIndex
-            ];
+            field.cells[
+              this.position.y + rowIndex + (this.heigth < this.width)
+            ][this.position.x + cellIndex];
 
           canMovePoints.push(cellToFill !== undefined && cellToFill !== 1);
         }
@@ -181,7 +181,7 @@ class Tetramino {
         const pointY = this.position.y + rowIndex;
         const pointX = this.position.x + pointIndex;
 
-        if (point) cells[pointY][pointX] = 1;
+        if (point) field.cells[pointY][pointX] = 1;
       });
     });
   }

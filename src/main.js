@@ -1,15 +1,17 @@
-import { createField, drawCells, vanish } from './field';
+import field from './field';
 import initControls from './controls';
 import tetramino from './tetramino/index';
 import { drawOnTopOverlay } from './overlays/topOverlay';
 import drawNextTetraminoOverlay from './overlays/nextTetraminoOverlay';
 import score from './score';
 
-createField();
+export const cellsColumnCount = 10;
 
 const moveInterval = 500;
 
 let isGameOver = false;
+
+const gameOverMessage = 'GAME OVER! \n Your score is: ' + score.points;
 
 const play = () =>
   setInterval(() => {
@@ -20,27 +22,28 @@ const play = () =>
       tetramino.move('down');
     } else {
       tetramino.land();
-      vanish();
-      drawOnTopOverlay();
+      field.vanish();
+
+      drawOnTopOverlay(); // update score
       if (tetramino.canSpawn()) {
         tetramino.respawn();
       } else {
         isGameOver = true;
-        alert('GAME OVER! \n Your score is: ' + score.points);
+        alert(gameOverMessage);
         location.reload();
       }
     }
   }, moveInterval);
 
 const game = () => {
-  drawCells();
+  // field.drawCells();
+
   drawOnTopOverlay();
   drawNextTetraminoOverlay();
 
-  tetramino.summon();
+  // tetramino.summon();
 
   play();
-
   // console.table(cells);
 };
 
