@@ -1,5 +1,5 @@
 import { createField, drawCells, vanish } from './field';
-import { keyDownHandler } from './controls';
+import initControls from './controls';
 import tetramino from './tetramino/index';
 import { drawOnOverlay } from './overlay';
 
@@ -40,5 +40,5 @@ const game = () => {
   // console.table(cells);
 };
 
-document.addEventListener('keydown', keyDownHandler, false);
+document.addEventListener('load', initControls());
 document.addEventListener('load', game());

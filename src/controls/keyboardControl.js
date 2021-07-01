@@ -1,13 +1,4 @@
-import tetramino from './tetramino/index';
-import score from './score';
-import { drawOnOverlay } from './overlay';
-
-const scoreUpForFastDropping = () => {
-  if (tetramino.canMove()) {
-    score.adjust(1);
-    drawOnOverlay();
-  }
-};
+import tetramino from '../tetramino/index';
 
 const keyDownHandler = (event) => {
   switch (event.key) {
@@ -28,9 +19,12 @@ const keyDownHandler = (event) => {
 
     case 'Down':
     case 'ArrowDown':
-      tetramino.move('down');
-      scoreUpForFastDropping();
+      tetramino.drop();
   }
 };
 
-export { keyDownHandler };
+const initKeyboardControl = () => {
+  document.addEventListener('keydown', keyDownHandler, false);
+};
+
+export default initKeyboardControl;

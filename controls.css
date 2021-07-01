@@ -1,0 +1,58 @@
+:root {
+  --controls-margin: 10px;
+  --control-buttons-margin: 5px;
+  --control-button-width: calc((100% / 3) - var(--controls-margin) * 2);
+  --wide-button-width: calc(100% - var(--controls-margin) * 4);
+}
+
+#controls {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 500px;
+  justify-content: center;
+  margin: 20px auto 0;
+}
+
+@media only screen and (max-width: 600px) {
+  #controls {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+  }
+}
+
+#controls button {
+  flex-basis: var(--control-button-width);
+  padding: 10px;
+  margin: var(--control-buttons-margin);
+  background-color: #80deea;
+  background: linear-gradient(#80deea, #4dd0e1);
+  border-radius: 5px;
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+}
+
+#controls button.rotate {
+  background-color: #dce775;
+  background: linear-gradient(#dce775, #d4e157);
+}
+
+#controls button.drop {
+  flex-basis: var(--wide-button-width);
+  background-color: #ffd54f;
+  background: linear-gradient(#ffd54f, #ffca28);
+}
+
+#controls button:active {
+  background: #26c6da;
+}
+
+#controls button.rotate:active {
+  background: #cddc39;
+}
+
+#controls button.drop:active {
+  background: #ffc107;
+}

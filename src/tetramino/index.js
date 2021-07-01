@@ -1,7 +1,8 @@
 import { canvas } from '../constants/index';
 import { cellsColumnCount } from '../constants/fieldSizes';
 import { cells, drawCells, refreshCells } from '../field';
-import pickNextFigure from '../utils/pickNextFigure';
+import score from '../score';
+import { drawOnOverlay } from '../overlay';
 import getRandomColor from '../utils/getRandomColor';
 import clearCanvas from '../utils/clearCanvas';
 import getRandomArrayElement from '../utils/getRandomArrayElement';
@@ -43,7 +44,12 @@ class Tetramino {
     this.position.x = this.initialPosition.x;
     this.position.y = this.initialPosition.y;
 
-    this.tetramino = pickNextFigure();
+    const nextTetramino = this.pickNextFigure();
+
+    this.tetramino = nextTetramino;
+    this.heigth = nextTetramino.length;
+    this.width = nextTetramino[0].length;
+
     this.color = getRandomColor();
   }
 
@@ -123,6 +129,15 @@ class Tetramino {
 
     this.summon();
     drawCells();
+  }
+
+  drop() {
+    this.move('down');
+
+    if (tetramino.canMove()) {
+      score.adjust(1);
+      drawOnOverlay();
+    }
   }
 
   rotate() {
