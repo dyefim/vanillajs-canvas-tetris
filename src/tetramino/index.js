@@ -10,7 +10,8 @@ import tetraminos from './tetraminos';
 
 class Tetramino {
   constructor() {
-    this.tetramino = this.pickNextFigure();
+    this.tetramino = this.getRandomTetramino();
+    this.next = this.getRandomTetramino();
 
     this.heigth = this.tetramino.length;
     this.width = this.tetramino[0].length;
@@ -22,7 +23,7 @@ class Tetramino {
     this.color = getRandomColor();
   }
 
-  pickNextFigure() {
+  getRandomTetramino() {
     return getRandomArrayElement(Object.values(tetraminos));
   }
 
@@ -44,13 +45,13 @@ class Tetramino {
     this.position.x = this.initialPosition.x;
     this.position.y = this.initialPosition.y;
 
-    const nextTetramino = this.pickNextFigure();
-
-    this.tetramino = nextTetramino;
-    this.heigth = nextTetramino.length;
-    this.width = nextTetramino[0].length;
+    this.tetramino = this.next;
+    this.heigth = this.next.length;
+    this.width = this.next[0].length;
 
     this.color = getRandomColor();
+
+    this.next = this.getRandomTetramino();
   }
 
   respawn() {

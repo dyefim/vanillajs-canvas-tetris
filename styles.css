@@ -8,6 +8,7 @@ body,
   box-sizing: border-box;
   border: none;
 }
+
 canvas {
   background: #eee;
   display: block;
@@ -22,5 +23,14 @@ canvas {
   transform: translate(-50%, -440px);
   background-color: #223;
   border-radius: 0 0 10px 10px;
+  z-index: 500;
+}
+
+#nextTetraminoCanvas {
+  position: absolute;
+  top: 100px;
+  right: 0;
+  background-color: #223;
+  border-radius: 10px 0 0 10px;
   z-index: 500;
 }

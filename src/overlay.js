@@ -13,14 +13,18 @@ const scoreFontSize = overlayCanvas.height / 2;
 context.font = `${scoreFontSize}px sans-serif`;
 context.fillStyle = gradient;
 
-const drawOnOverlay = () => {
-  clearCanvas(overlayCanvas);
-
+const drawScore = () => {
   context.fillText(
     `Score: ${score.points}`,
     10,
     (overlayCanvas.height + scoreFontSize) / 2
   );
+};
+
+const drawOnOverlay = () => {
+  clearCanvas(overlayCanvas);
+
+  drawScore();
 };
 
 export { drawOnOverlay };

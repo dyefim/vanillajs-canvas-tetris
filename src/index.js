@@ -2,6 +2,8 @@ import { createField, drawCells, vanish } from './field';
 import initControls from './controls';
 import tetramino from './tetramino/index';
 import { drawOnOverlay } from './overlay';
+import drawNextTetraminoOverlay from './nextTetraminoOverlay';
+import score from './score';
 
 createField();
 
@@ -12,6 +14,7 @@ let isGameOver = false;
 const play = () =>
   setInterval(() => {
     if (isGameOver) return;
+    drawNextTetraminoOverlay();
 
     if (tetramino.canMove('down')) {
       tetramino.move('down');
@@ -23,7 +26,7 @@ const play = () =>
         tetramino.respawn();
       } else {
         isGameOver = true;
-        alert('GAME OVER!');
+        alert('GAME OVER! \n Your score is: ' + score.points);
         location.reload();
       }
     }
@@ -32,6 +35,7 @@ const play = () =>
 const game = () => {
   drawCells();
   drawOnOverlay();
+  drawNextTetraminoOverlay();
 
   tetramino.summon();
 
