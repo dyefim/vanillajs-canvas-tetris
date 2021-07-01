@@ -1,5 +1,5 @@
-import score from './score';
-import clearCanvas from './utils/clearCanvas';
+import score from '../score';
+import clearCanvas from '../utils/clearCanvas';
 
 const overlayCanvas = document.getElementById('overlayCanvas');
 const context = overlayCanvas.getContext('2d');
@@ -21,10 +21,10 @@ const drawScore = () => {
   );
 };
 
-const drawOnOverlay = () => {
+const drawOnTopOverlay = () => {
   clearCanvas(overlayCanvas);
 
   drawScore();
 };
 
-export { drawOnOverlay };
+export { drawOnTopOverlay };

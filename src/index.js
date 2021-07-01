@@ -1,8 +1,8 @@
 import { createField, drawCells, vanish } from './field';
 import initControls from './controls';
 import tetramino from './tetramino/index';
-import { drawOnOverlay } from './overlay';
-import drawNextTetraminoOverlay from './nextTetraminoOverlay';
+import { drawOnTopOverlay } from './overlays/topOverlay';
+import drawNextTetraminoOverlay from './overlays/nextTetraminoOverlay';
 import score from './score';
 
 createField();
@@ -21,7 +21,7 @@ const play = () =>
     } else {
       tetramino.land();
       vanish();
-      drawOnOverlay();
+      drawOnTopOverlay();
       if (tetramino.canSpawn()) {
         tetramino.respawn();
       } else {
@@ -34,7 +34,7 @@ const play = () =>
 
 const game = () => {
   drawCells();
-  drawOnOverlay();
+  drawOnTopOverlay();
   drawNextTetraminoOverlay();
 
   tetramino.summon();

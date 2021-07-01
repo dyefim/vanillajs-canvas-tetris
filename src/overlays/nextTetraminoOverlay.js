@@ -1,5 +1,5 @@
-import tetramino from './tetramino';
-import clearCanvas from './utils/clearCanvas';
+import tetramino from '../tetramino';
+import clearCanvas from '../utils/clearCanvas';
 
 const nextTetraminoCanvas = document.getElementById('nextTetraminoCanvas');
 const context = nextTetraminoCanvas.getContext('2d');

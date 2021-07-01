@@ -2,7 +2,7 @@ import { canvas } from '../constants/index';
 import { cellsColumnCount } from '../constants/fieldSizes';
 import { cells, drawCells, refreshCells } from '../field';
 import score from '../score';
-import { drawOnOverlay } from '../overlay';
+import { drawOnTopOverlay } from '../overlays/topOverlay';
 import getRandomColor from '../utils/getRandomColor';
 import clearCanvas from '../utils/clearCanvas';
 import getRandomArrayElement from '../utils/getRandomArrayElement';
@@ -137,7 +137,7 @@ class Tetramino {
 
     if (tetramino.canMove()) {
       score.adjust(1);
-      drawOnOverlay();
+      drawOnTopOverlay();
     }
   }
 
