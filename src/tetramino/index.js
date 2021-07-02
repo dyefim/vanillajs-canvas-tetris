@@ -67,44 +67,48 @@ class Tetramino {
         const pointY = this.position.y + rowIndex;
         const pointX = this.position.x + pointIndex;
 
+        if (point === 0) {
+          // empty tetramino's cells can pass in
+          results.push(true);
+        }
+
         let nextCell;
 
         switch (direction) {
           case 'down': {
             const nextRow = field.cells[pointY + 1];
 
-            if (!nextRow) {
+            if (!nextRow && point === 2) {
               return results.push(false);
             }
 
-            nextCell = nextRow[pointX];
+            nextCell = nextRow?.[pointX];
 
             break;
           }
           case 'right': {
-            nextCell = field.cells[pointY][pointX + 1];
+            nextCell = field.cells[pointY]?.[pointX + 1];
 
             break;
           }
 
           case 'left': {
-            nextCell = field.cells[pointY][pointX - 1];
+            nextCell = field.cells[pointY]?.[pointX - 1];
 
             break;
           }
         }
 
-        if (typeof nextCell === 'undefined') {
-          return results.push(false);
-        }
+        const limitedByWell = typeof nextCell === 'undefined' && point === 2;
+        const limitedByLandedBlocks = nextCell === 1 && point === 2;
 
-        if (point !== 0) {
-          return results.push(nextCell !== 1);
+        if (limitedByWell || limitedByLandedBlocks) {
+          return results.push(false);
         }
       });
     });
 
-    return results.every((v) => v);
+    return results.every(Boolean);
   }
 
   move(direction) {
