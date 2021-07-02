@@ -16,8 +16,8 @@ class Tetramino {
     this.width = this.tetramino[0].length;
 
     this.spawnOffsetLeft = Math.floor((cellsColumnCount - this.width) / 2);
-    this.initialPosition = { x: this.spawnOffsetLeft, y: 0 };
-    this.position = { ...this.initialPosition };
+    this.spawnPosition = { x: this.spawnOffsetLeft, y: 0 };
+    this.position = { ...this.spawnPosition };
 
     this.color = getRandomColor();
   }
@@ -38,13 +38,28 @@ class Tetramino {
     });
   }
 
+  recalcSpawnPosition(newTetraminoWidth) {
+    this.spawnOffsetLeft = Math.floor(
+      (cellsColumnCount - newTetraminoWidth) / 2
+    );
+
+    this.spawnPosition = { x: this.spawnOffsetLeft, y: 0 };
+  }
+
   canSpawn() {
-    return field.cells[1][this.spawnOffsetLeft] !== 1;
+    const spawnPlace = field.cells[1].slice(
+      this.spawnOffsetLeft,
+      this.spawnOffsetLeft + 4
+    );
+
+    return spawnPlace.every((p) => p !== 1);
   }
 
   reset() {
-    this.position.x = this.initialPosition.x;
-    this.position.y = this.initialPosition.y;
+    this.recalcSpawnPosition(this.next[0].length);
+
+    this.position.x = this.spawnPosition.x;
+    this.position.y = this.spawnPosition.y;
 
     this.tetramino = this.next;
     this.heigth = this.next.length;
@@ -59,7 +74,9 @@ class Tetramino {
 
   respawn() {
     this.reset();
-    this.summon();
+    setTimeout(() => {
+      this.summon();
+    }, 100);
   }
 
   canMove(direction = 'down') {
