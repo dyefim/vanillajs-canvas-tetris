@@ -56,3 +56,9 @@
 #controls button.drop:active {
   background: #ffc107;
 }
+
+#controls svg,
+#controls img {
+  height: 20px;
+  vertical-align: middle;
+}

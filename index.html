@@ -6,17 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="styles/index.css" />
     <title>The Game</title>
+    <!-- I'm using fontawesome icons: https://fontawesome.com/license -->
   </head>
   <body>
     <canvas id="gameCanvas" width="200" height="440"></canvas>
     <canvas id="overlayCanvas" width="300" height="40"></canvas>
     <canvas id="nextTetraminoCanvas" width="60" height="75"></canvas>
     <div id="controls">
-      <button class="left">&larr;</button>
-      <button class="rotate">&orarr;</button>
-      <button class="right">&rarr;</button>
+      <button class="left">
+        <img src="/src/icons/arrow-left-solid.svg" />
+      </button>
+      <button class="rotate">
+        <img src="/src/icons/redo-solid.svg" />
+      </button>
+      <button class="right">
+        <img src="/src/icons/arrow-right-solid.svg" />
+      </i></button>
 
-      <button class="drop">&#8681;</button>
+      <button class="drop"><img src="/src/icons/angle-double-down-solid.svg" /></button>
     </div>
     <script type="module" src="/src/main.js"></script>
   </body>
