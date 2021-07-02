@@ -191,12 +191,11 @@ class Tetramino {
 
     this.width = flipped[0].length;
     this.heigth = flipped.length;
-    this.spawnOffsetLeft = Math.floor(
-      (cellsColumnCount - flipped[0].length) / 2
-    );
 
     this.tetramino = flipped;
     // .map((r) => r.reverse()).reverse();
+
+    field.drawCells();
   }
 
   land() {
