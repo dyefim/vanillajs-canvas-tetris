@@ -3,14 +3,16 @@ import score from '../score';
 import { drawOnTopOverlay } from '../overlays/topOverlay';
 import getRandomColor from '../utils/getRandomColor';
 import getRandomArrayElement from '../utils/getRandomArrayElement';
+import shuffle from '../utils/shuffle';
 import tetraminos from './tetraminos';
 import { cellsColumnCount } from '../constants/fieldSize';
 import drawNextTetraminoOverlay from '../overlays/nextTetraminoOverlay';
 
 class Tetramino {
   constructor() {
-    this.tetramino = this.getRandomTetramino();
-    this.next = this.getRandomTetramino();
+    this.bag = this.shuffle();
+    this.tetramino = this.pullFromBag();
+    this.next = this.pullFromBag();
 
     this.heigth = this.tetramino.length;
     this.width = this.tetramino[0].length;
@@ -20,6 +22,18 @@ class Tetramino {
     this.position = { ...this.spawnPosition };
 
     this.color = getRandomColor();
+  }
+
+  shuffle() {
+    return shuffle(Object.values(tetraminos));
+  }
+
+  pullFromBag() {
+    if (this.bag.length <= 0) {
+      this.bag = this.shuffle();
+    }
+
+    return this.bag.shift();
   }
 
   getRandomTetramino() {

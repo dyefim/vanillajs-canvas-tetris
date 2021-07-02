@@ -39,7 +39,7 @@ const game = () => {
   // field.drawCells();
 
   drawOnTopOverlay();
-  drawNextTetraminoOverlay();
+  // drawNextTetraminoOverlay();
 
   // tetramino.summon();
 
