@@ -66,7 +66,7 @@ class Field {
     this.cells.forEach((row, index) => {
       if (row.every((c) => c === 1)) {
         this.cells.splice(index, 1);
-        this.cells.unshift(new Array(cellsRowCount).fill(0));
+        this.cells.unshift(new Array(cellsColumnCount).fill(0));
 
         rewardLineVanishing();
       }

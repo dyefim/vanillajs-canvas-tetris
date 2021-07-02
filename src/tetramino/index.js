@@ -5,6 +5,7 @@ import getRandomColor from '../utils/getRandomColor';
 import getRandomArrayElement from '../utils/getRandomArrayElement';
 import tetraminos from './tetraminos';
 import { cellsColumnCount } from '../constants/fieldSize';
+import drawNextTetraminoOverlay from '../overlays/nextTetraminoOverlay';
 
 class Tetramino {
   constructor() {
@@ -52,6 +53,8 @@ class Tetramino {
     this.color = getRandomColor();
 
     this.next = this.getRandomTetramino();
+
+    drawNextTetraminoOverlay();
   }
 
   respawn() {
