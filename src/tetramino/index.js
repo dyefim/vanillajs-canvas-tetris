@@ -1,18 +1,18 @@
 import field from '../field';
 import score from '../score';
-import { drawOnTopOverlay } from '../overlays/topOverlay';
+import { renderOnTopOverlay } from '../overlays/topOverlay';
 import getRandomColor from '../utils/getRandomColor';
 // import getRandomArrayElement from '../utils/getRandomArrayElement';
 import shuffle from '../utils/shuffle';
 import tetraminos from './tetraminos';
 import { cellsColumnCount } from '../constants/fieldSize';
-import drawNextTetraminoOverlay from '../overlays/nextTetraminoOverlay';
+import renderNextTetraminoOverlay from '../overlays/nextTetraminoOverlay';
 
 class Tetramino {
   constructor() {
     this.bag = this.shuffle();
-    this.tetramino = this.pullFromBag();
-    this.next = this.pullFromBag();
+    this.tetramino = this.draw();
+    this.next = this.draw();
 
     this.heigth = this.tetramino.length;
     this.width = this.tetramino[0].length;
@@ -28,7 +28,7 @@ class Tetramino {
     return shuffle(Object.values(tetraminos));
   }
 
-  pullFromBag() {
+  draw() {
     if (this.bag.length <= 0) {
       this.bag = this.shuffle();
     }
@@ -77,9 +77,9 @@ class Tetramino {
 
     this.color = getRandomColor();
 
-    this.next = this.pullFromBag();
+    this.next = this.draw();
 
-    drawNextTetraminoOverlay();
+    renderNextTetraminoOverlay();
   }
 
   respawn() {
@@ -163,7 +163,7 @@ class Tetramino {
     }
 
     this.summon();
-    field.drawCells();
+    field.renderCells();
   }
 
   drop() {
@@ -171,7 +171,7 @@ class Tetramino {
 
     if (tetramino.canMove()) {
       score.adjust(1);
-      drawOnTopOverlay();
+      renderOnTopOverlay();
     }
   }
 
@@ -205,7 +205,7 @@ class Tetramino {
     this.tetramino = flipped;
     // .map((r) => r.reverse()).reverse();
 
-    field.drawCells();
+    field.renderCells();
   }
 
   land() {

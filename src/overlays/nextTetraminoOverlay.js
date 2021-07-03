@@ -20,7 +20,7 @@ context.fillStyle = gradient;
 
 const cellSize = 10;
 
-const drawSingleCell = (x, y, cellValue = 0) => {
+const renderSingleCell = (x, y, cellValue = 0) => {
   const offsetTop = nextTetraminoCanvas.height - fontSize - 5 - cellSize / 2;
   const offsetLeft =
     (nextTetraminoCanvas.width - tetramino.next[0].length * cellSize) / 2;
@@ -39,13 +39,13 @@ const drawSingleCell = (x, y, cellValue = 0) => {
   context.fill();
 };
 
-const drawMiniature = (cells) => {
+const renderMiniature = (cells) => {
   context.beginPath();
 
   cells.forEach((row, rowIndex) => {
     row.forEach((cell, cellIndex) => {
       if (cell) {
-        drawSingleCell(cellIndex, rowIndex, cell);
+        renderSingleCell(cellIndex, rowIndex, cell);
       }
     });
   });
@@ -53,12 +53,12 @@ const drawMiniature = (cells) => {
   context.closePath();
 };
 
-const drawNextTetraminoOverlay = () => {
+const renderNextTetraminoOverlay = () => {
   clearCanvas(nextTetraminoCanvas);
 
   context.fillText('Next', 10, 5 + fontSize);
 
-  drawMiniature(tetramino.next);
+  renderMiniature(tetramino.next);
 };
 
-export default drawNextTetraminoOverlay;
+export default renderNextTetraminoOverlay;

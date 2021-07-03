@@ -32,7 +32,7 @@ class Field {
     });
   }
 
-  drawSingleCell(x, y, cellValue = 0) {
+  renderSingleCell(x, y, cellValue = 0) {
     context.beginPath();
 
     context.rect(x * cellSize, y * cellSize, cellSize, cellSize);
@@ -52,11 +52,11 @@ class Field {
     context.closePath();
   }
 
-  drawCells() {
+  renderCells() {
     this.cells.forEach((row, rowIndex) => {
       row.forEach((cell, cellIndex) => {
         if (cell) {
-          this.drawSingleCell(cellIndex, rowIndex, cell);
+          this.renderSingleCell(cellIndex, rowIndex, cell);
         }
       });
     });
