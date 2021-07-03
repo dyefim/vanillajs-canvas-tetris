@@ -10,7 +10,7 @@ const initButtonControl = () => {
 
   leftButton.onclick = () => tetramino.move('left');
   rightButton.onclick = () => tetramino.move('right');
-  rotatingButton.onclick = () => tetramino.rotate();
+  rotatingButton.onclick = () => tetramino.tryToRotate();
   dropingButton.onclick = () => tetramino.drop();
 };
 

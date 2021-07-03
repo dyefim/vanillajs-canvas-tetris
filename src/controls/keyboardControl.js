@@ -14,7 +14,7 @@ const keyDownHandler = (event) => {
 
     case 'Up':
     case 'ArrowUp':
-      tetramino.rotate();
+      tetramino.tryToRotate();
       break;
 
     case 'Down':

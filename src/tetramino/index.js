@@ -89,10 +89,10 @@ class Tetramino {
     }, 100);
   }
 
-  canMove(direction = 'down') {
+  canMove(direction = 'down', tetramino = this.tetramino) {
     const results = [];
 
-    this.tetramino.forEach((row, rowIndex) => {
+    tetramino.forEach((row, rowIndex) => {
       row.forEach((point, pointIndex) => {
         const pointY = this.position.y + rowIndex;
         const pointX = this.position.x + pointIndex;
@@ -175,37 +175,70 @@ class Tetramino {
     }
   }
 
-  rotate() {
+  previewRotation(tetramino = this.tetramino) {
+    return tetramino[0].map((val, index) =>
+      tetramino.map((row) => row[index]).reverse()
+    );
+  }
+
+  canRotate(tetramino = [...this.tetramino], position = { ...this.position }) {
     const canMovePoints = [];
 
-    const flipped = this.tetramino[0].map((val, index) =>
-      this.tetramino.map((row) => row[index]).reverse()
-    );
+    const rotated = this.previewRotation(tetramino);
 
-    flipped.forEach((row, rowIndex) => {
+    rotated.forEach((row, rowIndex) => {
       row.forEach((cell, cellIndex) => {
         if (cell) {
           const cellToFill =
-            field.cells[
-              this.position.y + rowIndex + (this.heigth < this.width)
-            ][this.position.x + cellIndex];
+            field.cells[position.y + rowIndex][position.x + cellIndex];
 
           canMovePoints.push(cellToFill !== undefined && cellToFill !== 1);
         }
       });
     });
 
-    if (!canMovePoints.every(Boolean)) {
-      return;
-    }
+    return canMovePoints.every(Boolean);
+  }
 
-    this.width = flipped[0].length;
-    this.heigth = flipped.length;
+  rotate(tetramino = this.tetramino) {
+    const rotated = this.previewRotation(tetramino);
 
-    this.tetramino = flipped;
-    // .map((r) => r.reverse()).reverse();
+    this.width = rotated[0].length;
+    this.heigth = rotated.length;
+
+    this.tetramino = rotated;
 
     field.renderCells();
+  }
+
+  tryToRotate() {
+    if (this.canRotate(this.tetramino)) {
+      this.rotate();
+    } else {
+      const canWallKickRight = this.canRotate(this.tetramino, {
+        ...this.position,
+        x: this.position.x + 1,
+      });
+
+      if (canWallKickRight) {
+        this.move('right');
+        this.rotate();
+
+        return;
+      }
+
+      const canWallKickLeft = this.canRotate(this.tetramino, {
+        ...this.position,
+        x: this.position.x - 1,
+      });
+
+      if (canWallKickLeft) {
+        this.move('left');
+        this.rotate();
+
+        return;
+      }
+    }
   }
 
   land() {
