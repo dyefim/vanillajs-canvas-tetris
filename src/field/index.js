@@ -12,8 +12,6 @@ const cellSize = canvas.height / cellsRowCount;
 // adjust the width of the canvas
 canvas.width = (canvas.height / cellsRowCount) * cellsColumnCount;
 
-const rewardLineVanishing = () => score.adjust(100);
-
 class Field {
   constructor() {
     this.cells = createMatrix(cellsRowCount, cellsColumnCount);
@@ -64,14 +62,17 @@ class Field {
   }
 
   vanish() {
+    let linesVanished = 0;
+
     this.cells.forEach((row, index) => {
       if (row.every((c) => c === 1)) {
         this.cells.splice(index, 1);
         this.cells.unshift(new Array(cellsColumnCount).fill(0));
-
-        rewardLineVanishing();
+        linesVanished++;
       }
     });
+
+    score.rewardVanishing(linesVanished);
   }
 }
 
