@@ -1,18 +1,13 @@
 import field from '../field';
 import score from '../score';
 import { renderOnTopOverlay } from '../overlays/topOverlay';
-import getRandomColor from '../utils/getRandomColor';
-// import getRandomArrayElement from '../utils/getRandomArrayElement';
-import shuffle from '../utils/shuffle';
-import tetraminos from './tetraminos';
-import { cellsColumnCount } from '../field/fieldSizes';
 import renderNextTetraminoOverlay from '../overlays/nextTetraminoOverlay';
+import { cellsColumnCount } from '../field/fieldSizes';
+import bag from '../bag';
 
 class Tetramino {
   constructor() {
-    this.bag = this.shuffle();
-    this.tetramino = this.draw();
-    this.next = this.draw();
+    this.tetramino = bag.draw();
 
     this.heigth = this.tetramino.length;
     this.width = this.tetramino[0].length;
@@ -21,19 +16,7 @@ class Tetramino {
     this.spawnPosition = { x: this.spawnOffsetLeft, y: 0 };
     this.position = { ...this.spawnPosition };
 
-    this.color = getRandomColor();
-  }
-
-  shuffle() {
-    return shuffle(Object.values(tetraminos));
-  }
-
-  draw() {
-    if (this.bag.length <= 0) {
-      this.bag = this.shuffle();
-    }
-
-    return this.bag.shift();
+    this.color = bag.color;
   }
 
   summon() {
@@ -66,18 +49,17 @@ class Tetramino {
   }
 
   reset() {
-    this.recalcSpawnPosition(this.next[0].length);
+    this.tetramino = bag.draw();
+
+    this.recalcSpawnPosition(this.tetramino[0].length);
 
     this.position.x = this.spawnPosition.x;
     this.position.y = this.spawnPosition.y;
 
-    this.tetramino = this.next;
-    this.heigth = this.next.length;
-    this.width = this.next[0].length;
+    this.heigth = this.tetramino.length;
+    this.width = this.tetramino[0].length;
 
-    this.color = getRandomColor();
-
-    this.next = this.draw();
+    this.color = bag.color;
 
     renderNextTetraminoOverlay();
   }

@@ -1,4 +1,4 @@
-import tetramino from '../tetramino';
+import bag from '../bag';
 import clearCanvas from '../utils/clearCanvas';
 
 const nextTetraminoCanvas = document.getElementById('nextTetraminoCanvas');
@@ -23,7 +23,7 @@ const cellSize = 10;
 const renderSingleCell = (x, y, cellValue = 0) => {
   const offsetTop = nextTetraminoCanvas.height - fontSize - 5 - cellSize / 2;
   const offsetLeft =
-    (nextTetraminoCanvas.width - tetramino.next[0].length * cellSize) / 2;
+    (nextTetraminoCanvas.width - bag.next[0].length * cellSize) / 2;
 
   context.rect(
     x * cellSize + offsetLeft,
@@ -58,7 +58,9 @@ const renderNextTetraminoOverlay = () => {
 
   context.fillText('Next', 10, 5 + fontSize);
 
-  renderMiniature(tetramino.next);
+  if (bag.next) {
+    renderMiniature(bag.next);
+  }
 };
 
 export default renderNextTetraminoOverlay;
