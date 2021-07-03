@@ -1,14 +1,15 @@
-import tetramino from './tetramino/index';
-import score from './score';
-import createMatrix from './utils/createMatrix';
-import clearCanvas from './utils/clearCanvas';
-import { cellsRowCount, cellsColumnCount } from './constants/fieldSize';
+import tetramino from '../tetramino/index';
+import score from '../score';
+import createMatrix from '../utils/createMatrix';
+import clearCanvas from '../utils/clearCanvas';
+import { cellsRowCount, cellsColumnCount } from './fieldSizes';
 
 const canvas = document.getElementById('gameCanvas');
 const context = canvas.getContext('2d');
 
 const cellSize = canvas.height / cellsRowCount;
 
+// adjust the width of the canvas
 canvas.width = (canvas.height / cellsRowCount) * cellsColumnCount;
 
 const rewardLineVanishing = () => score.adjust(100);

@@ -5,7 +5,7 @@ import getRandomColor from '../utils/getRandomColor';
 // import getRandomArrayElement from '../utils/getRandomArrayElement';
 import shuffle from '../utils/shuffle';
 import tetraminos from './tetraminos';
-import { cellsColumnCount } from '../constants/fieldSize';
+import { cellsColumnCount } from '../field/fieldSizes';
 import renderNextTetraminoOverlay from '../overlays/nextTetraminoOverlay';
 
 class Tetramino {
