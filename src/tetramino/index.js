@@ -1,13 +1,12 @@
 import field from '../field';
 import score from '../score';
 import { renderOnTopOverlay } from '../overlays/topOverlay';
-import renderNextTetraminoOverlay from '../overlays/nextTetraminoOverlay';
+import getRandomColor from '../utils/getRandomColor';
 import { cellsColumnCount } from '../field/fieldSizes';
-import bag from '../bag';
 
 class Tetramino {
-  constructor() {
-    this.tetramino = bag.draw();
+  constructor(shape) {
+    this.tetramino = shape;
 
     this.heigth = this.tetramino.length;
     this.width = this.tetramino[0].length;
@@ -16,59 +15,7 @@ class Tetramino {
     this.spawnPosition = { x: this.spawnOffsetLeft, y: 0 };
     this.position = { ...this.spawnPosition };
 
-    this.color = bag.color;
-  }
-
-  summon() {
-    this.tetramino.forEach((row, rowIndex) => {
-      row.forEach((cell, cellIndex) => {
-        if (cell) {
-          field.cells[this.position.y + rowIndex][
-            this.position.x + cellIndex
-          ] = 2;
-        }
-      });
-    });
-  }
-
-  recalcSpawnPosition(newTetraminoWidth) {
-    this.spawnOffsetLeft = Math.floor(
-      (cellsColumnCount - newTetraminoWidth) / 2
-    );
-
-    this.spawnPosition = { x: this.spawnOffsetLeft, y: 0 };
-  }
-
-  canSpawn() {
-    const spawnPlace = field.cells[1].slice(
-      this.spawnOffsetLeft,
-      this.spawnOffsetLeft + 4
-    );
-
-    return spawnPlace.every((p) => p !== 1);
-  }
-
-  reset() { // TODO: mb move thiss logic to Bag
-    this.tetramino = bag.draw();
-
-    this.recalcSpawnPosition(this.tetramino[0].length);
-
-    this.position.x = this.spawnPosition.x;
-    this.position.y = this.spawnPosition.y;
-
-    this.heigth = this.tetramino.length;
-    this.width = this.tetramino[0].length;
-
-    this.color = bag.color;
-
-    renderNextTetraminoOverlay();
-  }
-
-  respawn() {
-    this.reset();
-    setTimeout(() => {
-      this.summon();
-    }, 100);
+    this.color = getRandomColor();
   }
 
   canMove(direction = 'down', tetramino = this.tetramino) {
@@ -144,14 +91,14 @@ class Tetramino {
       }
     }
 
-    this.summon();
-    field.renderCells();
+    field.summon({ tetramino: this.tetramino, position: this.position });
+    field.renderCells(this.color);
   }
 
   drop() {
     this.move('down');
 
-    if (tetramino.canMove()) {
+    if (this.canMove()) {
       score.adjust(1);
       renderOnTopOverlay();
     }
@@ -190,7 +137,7 @@ class Tetramino {
 
     this.tetramino = rotated;
 
-    field.renderCells();
+    field.renderCells(this.color);
   }
 
   tryToRotate() {
@@ -235,6 +182,4 @@ class Tetramino {
   }
 }
 
-const tetramino = new Tetramino();
-
-export default tetramino;
+export default Tetramino;

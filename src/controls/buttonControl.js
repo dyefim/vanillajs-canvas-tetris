@@ -1,4 +1,4 @@
-import tetramino from '../tetramino/index';
+import tetris from '../main';
 
 const initButtonControl = () => {
   const controlsContainer = document.getElementById('controls');
@@ -8,10 +8,10 @@ const initButtonControl = () => {
   const rotatingButton = controlsContainer.getElementsByClassName('rotate')[0];
   const dropingButton = controlsContainer.getElementsByClassName('drop')[0];
 
-  leftButton.onclick = () => tetramino.move('left');
-  rightButton.onclick = () => tetramino.move('right');
-  rotatingButton.onclick = () => tetramino.tryToRotate();
-  dropingButton.onclick = () => tetramino.drop();
+  leftButton.onclick = () => tetris.currentTetramino.move('left');
+  rightButton.onclick = () => tetris.currentTetramino.move('right');
+  rotatingButton.onclick = () => tetris.currentTetramino.tryToRotate();
+  dropingButton.onclick = () => tetris.currentTetramino.drop();
 };
 
 export default initButtonControl;

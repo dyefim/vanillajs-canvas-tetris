@@ -1,9 +1,8 @@
-import tetramino from '../tetramino/index';
+import tetris from '../main';
 import score from '../score';
 import createMatrix from '../utils/createMatrix';
 import clearCanvas from '../utils/clearCanvas';
 import { cellsRowCount, cellsColumnCount } from './fieldSizes';
-import tetris from '../main';
 
 const canvas = document.getElementById('gameCanvas');
 const context = canvas.getContext('2d');
@@ -22,6 +21,25 @@ class Field {
     clearCanvas(canvas);
   }
 
+  canSpawn(spawnOffsetLeft) {
+    const spawnPlace = this.cells[1].slice(
+      spawnOffsetLeft,
+      spawnOffsetLeft + 4
+    );
+
+    return spawnPlace.every((p) => p !== 1);
+  }
+
+  summon({ tetramino, position }) {
+    tetramino.forEach((row, rowIndex) => {
+      row.forEach((cell, cellIndex) => {
+        if (cell) {
+          this.cells[position.y + rowIndex][position.x + cellIndex] = 2;
+        }
+      });
+    });
+  }
+
   refreshCells() {
     this.cells.forEach((row, rowIndex) => {
       row.forEach((cell, cellIndex) => {
@@ -32,31 +50,33 @@ class Field {
     });
   }
 
-  renderSingleCell(x, y, cellValue = 0) {
+  renderSingleCell({ x, y, cell = 0, cellColor }) {
     context.beginPath();
 
     context.rect(x * cellSize, y * cellSize, cellSize, cellSize);
 
-    // context.font = '10px serif';
-    // context.strokeText(`${x}:${y}`, x * cellSize, y * cellSize);
-
-    if (cellValue === 1) {
+    if (cell === 1) {
       context.fillStyle = '#778';
     }
 
-    if (cellValue === 2) {
-      context.fillStyle = tetramino.color;
+    if (cell === 2 && cellColor) {
+      context.fillStyle = cellColor;
     }
 
     context.fill();
     context.closePath();
   }
 
-  renderCells() {
+  renderCells(cellColor) {
     this.cells.forEach((row, rowIndex) => {
       row.forEach((cell, cellIndex) => {
         if (cell) {
-          this.renderSingleCell(cellIndex, rowIndex, cell);
+          this.renderSingleCell({
+            x: cellIndex,
+            y: rowIndex,
+            cell,
+            cellColor,
+          });
         }
       });
     });

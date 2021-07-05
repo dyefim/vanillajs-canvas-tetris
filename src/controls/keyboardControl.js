@@ -1,25 +1,25 @@
-import tetramino from '../tetramino/index';
+import tetris from '../main';
 
 const keyDownHandler = (event) => {
   switch (event.key) {
     case 'Right':
     case 'ArrowRight':
-      tetramino.move('right');
+      tetris.currentTetramino.move('right');
       break;
 
     case 'Left':
     case 'ArrowLeft':
-      tetramino.move('left');
+      tetris.currentTetramino.move('left');
       break;
 
     case 'Up':
     case 'ArrowUp':
-      tetramino.tryToRotate();
+      tetris.currentTetramino.tryToRotate();
       break;
 
     case 'Down':
     case 'ArrowDown':
-      tetramino.drop();
+      tetris.currentTetramino.drop();
   }
 };
 

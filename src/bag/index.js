@@ -1,13 +1,12 @@
-import getRandomColor from '../utils/getRandomColor';
 import shuffle from '../utils/shuffle';
 import tetraminos from './tetraminos';
+import Tetramino from '../tetramino';
+import renderNextTetraminoOverlay from '../overlays/nextTetraminoOverlay';
 
 class Bag {
   constructor() {
     this.bag = this.shuffle();
     this.next = this.bag.shift();
-
-    this.color = getRandomColor();
   }
 
   shuffle() {
@@ -19,13 +18,13 @@ class Bag {
       this.bag = this.shuffle();
     }
 
-    const tetramino = this.next;
+    const shape = this.next;
 
     this.next = this.bag.shift();
 
-    this.color = getRandomColor();
+    renderNextTetraminoOverlay();
 
-    return tetramino;
+    return new Tetramino(shape);
   }
 }
 

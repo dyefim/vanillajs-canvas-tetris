@@ -1,16 +1,15 @@
 import field from './field';
 import initControls from './controls';
-import tetramino from './tetramino/index';
 import { renderOnTopOverlay } from './overlays/topOverlay';
-import renderNextTetraminoOverlay from './overlays/nextTetraminoOverlay';
 import score from './score';
+import bag from './bag';
 
 class Tetris {
   constructor(initialLevel = 0) {
     this.initialLevel = initialLevel;
     this.level = 0;
 
-    this.accountOfVanishedLines = 9;
+    this.accountOfVanishedLines = 0;
     this.speedMultiplier = 1.26;
 
     this.initialGameSpeed = 500;
@@ -18,10 +17,11 @@ class Tetris {
 
     this.isGameOver = false;
 
+    this.currentTetramino = bag.draw();
+
     this.changeLevel();
     this.updateGameSpeed();
 
-    renderNextTetraminoOverlay();
     renderOnTopOverlay();
     initControls();
   }
@@ -43,7 +43,7 @@ class Tetris {
   }
 
   landing() {
-    tetramino.land();
+    this.currentTetramino.land();
     field.vanish();
 
     this.changeLevel();
@@ -54,21 +54,23 @@ class Tetris {
 
   endGame() {
     this.isGameOver = true;
-    alert('GAME OVER! \n Your score is: ' + score.points);
+    alert(`GAME OVER! \nScore: ${score.points} \nLevel: ${this.level}`);
     location.reload();
   }
 
   tryToRespawn() {
-    if (tetramino.canSpawn()) {
-      tetramino.respawn();
+    const nextTetramino = bag.draw();
+
+    if (field.canSpawn(nextTetramino.spawnOffsetLeft)) {
+      this.currentTetramino = nextTetramino;
     } else {
       this.endGame();
     }
   }
 
   resume() {
-    if (tetramino.canMove('down')) {
-      tetramino.move('down');
+    if (this.currentTetramino.canMove('down')) {
+      this.currentTetramino.move('down');
     } else {
       this.landing();
       this.tryToRespawn();
