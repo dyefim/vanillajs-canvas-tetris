@@ -4,12 +4,12 @@ import { renderOnTopOverlay } from '../overlays/topOverlay';
 import getRandomColor from '../utils/getRandomColor';
 import { cellsColumnCount } from '../field/fieldSizes';
 
-class Tetramino {
+class Tetromino {
   constructor(shape) {
-    this.tetramino = shape;
+    this.tetromino = shape;
 
-    this.heigth = this.tetramino.length;
-    this.width = this.tetramino[0].length;
+    this.heigth = this.tetromino.length;
+    this.width = this.tetromino[0].length;
 
     this.spawnOffsetLeft = Math.floor((cellsColumnCount - this.width) / 2);
     this.spawnPosition = { x: this.spawnOffsetLeft, y: 0 };
@@ -18,16 +18,16 @@ class Tetramino {
     this.color = getRandomColor();
   }
 
-  canMove(direction = 'down', tetramino = this.tetramino) {
+  canMove(direction = 'down', tetromino = this.tetromino) {
     const results = [];
 
-    tetramino.forEach((row, rowIndex) => {
+    tetromino.forEach((row, rowIndex) => {
       row.forEach((point, pointIndex) => {
         const pointY = this.position.y + rowIndex;
         const pointX = this.position.x + pointIndex;
 
         if (point === 0) {
-          // empty tetramino's cells can pass in
+          // empty tetromino's cells can pass in
           results.push(true);
         }
 
@@ -91,7 +91,7 @@ class Tetramino {
       }
     }
 
-    field.summon({ tetramino: this.tetramino, position: this.position });
+    field.summon({ tetromino: this.tetromino, position: this.position });
     field.renderCells(this.color);
   }
 
@@ -104,16 +104,16 @@ class Tetramino {
     }
   }
 
-  previewRotation(tetramino = this.tetramino) {
-    return tetramino[0].map((val, index) =>
-      tetramino.map((row) => row[index]).reverse()
+  previewRotation(tetromino = this.tetromino) {
+    return tetromino[0].map((val, index) =>
+      tetromino.map((row) => row[index]).reverse()
     );
   }
 
-  canRotate(tetramino = [...this.tetramino], position = { ...this.position }) {
+  canRotate(tetromino = [...this.tetromino], position = { ...this.position }) {
     const canMovePoints = [];
 
-    const rotated = this.previewRotation(tetramino);
+    const rotated = this.previewRotation(tetromino);
 
     rotated.forEach((row, rowIndex) => {
       row.forEach((cell, cellIndex) => {
@@ -129,22 +129,22 @@ class Tetramino {
     return canMovePoints.every(Boolean);
   }
 
-  rotate(tetramino = this.tetramino) {
-    const rotated = this.previewRotation(tetramino);
+  rotate(tetromino = this.tetromino) {
+    const rotated = this.previewRotation(tetromino);
 
     this.width = rotated[0].length;
     this.heigth = rotated.length;
 
-    this.tetramino = rotated;
+    this.tetromino = rotated;
 
     field.renderCells(this.color);
   }
 
   tryToRotate() {
-    if (this.canRotate(this.tetramino)) {
+    if (this.canRotate(this.tetromino)) {
       this.rotate();
     } else {
-      const canWallKickRight = this.canRotate(this.tetramino, {
+      const canWallKickRight = this.canRotate(this.tetromino, {
         ...this.position,
         x: this.position.x + 1,
       });
@@ -156,7 +156,7 @@ class Tetramino {
         return;
       }
 
-      const canWallKickLeft = this.canRotate(this.tetramino, {
+      const canWallKickLeft = this.canRotate(this.tetromino, {
         ...this.position,
         x: this.position.x - 1,
       });
@@ -171,7 +171,7 @@ class Tetramino {
   }
 
   land() {
-    this.tetramino.forEach((row, rowIndex) => {
+    this.tetromino.forEach((row, rowIndex) => {
       row.forEach((point, pointIndex) => {
         const pointY = this.position.y + rowIndex;
         const pointX = this.position.x + pointIndex;
@@ -182,4 +182,4 @@ class Tetramino {
   }
 }
 
-export default Tetramino;
+export default Tetromino;

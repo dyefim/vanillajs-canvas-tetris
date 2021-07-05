@@ -8,10 +8,10 @@ const initButtonControl = () => {
   const rotatingButton = controlsContainer.getElementsByClassName('rotate')[0];
   const dropingButton = controlsContainer.getElementsByClassName('drop')[0];
 
-  leftButton.onclick = () => tetris.currentTetramino.move('left');
-  rightButton.onclick = () => tetris.currentTetramino.move('right');
-  rotatingButton.onclick = () => tetris.currentTetramino.tryToRotate();
-  dropingButton.onclick = () => tetris.currentTetramino.drop();
+  leftButton.onclick = () => tetris.currentTetromino.move('left');
+  rightButton.onclick = () => tetris.currentTetromino.move('right');
+  rotatingButton.onclick = () => tetris.currentTetromino.tryToRotate();
+  dropingButton.onclick = () => tetris.currentTetromino.drop();
 };
 
 export default initButtonControl;

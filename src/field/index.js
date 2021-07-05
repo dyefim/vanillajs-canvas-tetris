@@ -30,8 +30,8 @@ class Field {
     return spawnPlace.every((p) => p !== 1);
   }
 
-  summon({ tetramino, position }) {
-    tetramino.forEach((row, rowIndex) => {
+  summon({ tetromino, position }) {
+    tetromino.forEach((row, rowIndex) => {
       row.forEach((cell, cellIndex) => {
         if (cell) {
           this.cells[position.y + rowIndex][position.x + cellIndex] = 2;

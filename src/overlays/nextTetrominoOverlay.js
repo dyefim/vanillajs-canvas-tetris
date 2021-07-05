@@ -1,19 +1,19 @@
 import bag from '../bag';
 import clearCanvas from '../utils/clearCanvas';
 
-const nextTetraminoCanvas = document.getElementById('nextTetraminoCanvas');
-const context = nextTetraminoCanvas.getContext('2d');
+const nextTetrominoCanvas = document.getElementById('nextTetrominoCanvas');
+const context = nextTetrominoCanvas.getContext('2d');
 const gradient = context.createLinearGradient(
   0,
   0,
-  nextTetraminoCanvas.width,
+  nextTetrominoCanvas.width,
   0
 );
 
 gradient.addColorStop('0', '#4FC3F7');
 gradient.addColorStop('1.0', '#AED581');
 
-const fontSize = nextTetraminoCanvas.width / 3;
+const fontSize = nextTetrominoCanvas.width / 3;
 
 context.font = `${fontSize}px sans-serif`;
 context.fillStyle = gradient;
@@ -21,9 +21,9 @@ context.fillStyle = gradient;
 const cellSize = 10;
 
 const renderSingleCell = (x, y, cellValue = 0) => {
-  const offsetTop = nextTetraminoCanvas.height - fontSize - 5 - cellSize / 2;
+  const offsetTop = nextTetrominoCanvas.height - fontSize - 5 - cellSize / 2;
   const offsetLeft =
-    (nextTetraminoCanvas.width - bag.next[0].length * cellSize) / 2;
+    (nextTetrominoCanvas.width - bag.next[0].length * cellSize) / 2;
 
   context.rect(
     x * cellSize + offsetLeft,
@@ -53,8 +53,8 @@ const renderMiniature = (cells) => {
   context.closePath();
 };
 
-const renderNextTetraminoOverlay = () => {
-  clearCanvas(nextTetraminoCanvas);
+const renderNextTetrominoOverlay = () => {
+  clearCanvas(nextTetrominoCanvas);
 
   context.fillText('Next', 10, 5 + fontSize);
 
@@ -63,4 +63,4 @@ const renderNextTetraminoOverlay = () => {
   }
 };
 
-export default renderNextTetraminoOverlay;
+export default renderNextTetrominoOverlay;

@@ -1,7 +1,7 @@
 import shuffle from '../utils/shuffle';
-import tetraminos from './tetraminos';
-import Tetramino from '../tetramino';
-import renderNextTetraminoOverlay from '../overlays/nextTetraminoOverlay';
+import tetrominos from './tetrominos';
+import Tetromino from '../tetromino';
+import renderNextTetrominoOverlay from '../overlays/nextTetrominoOverlay';
 
 class Bag {
   constructor() {
@@ -10,7 +10,7 @@ class Bag {
   }
 
   shuffle() {
-    return shuffle(Object.values(tetraminos));
+    return shuffle(Object.values(tetrominos));
   }
 
   draw() {
@@ -22,9 +22,9 @@ class Bag {
 
     this.next = this.bag.shift();
 
-    renderNextTetraminoOverlay();
+    renderNextTetrominoOverlay();
 
-    return new Tetramino(shape);
+    return new Tetromino(shape);
   }
 }
 

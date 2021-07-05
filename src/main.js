@@ -17,7 +17,7 @@ class Tetris {
 
     this.isGameOver = false;
 
-    this.currentTetramino = bag.draw();
+    this.currentTetromino = bag.draw();
 
     this.changeLevel();
     this.updateGameSpeed();
@@ -43,7 +43,7 @@ class Tetris {
   }
 
   landing() {
-    this.currentTetramino.land();
+    this.currentTetromino.land();
     field.vanish();
 
     this.changeLevel();
@@ -59,18 +59,18 @@ class Tetris {
   }
 
   tryToRespawn() {
-    const nextTetramino = bag.draw();
+    const nextTetromino = bag.draw();
 
-    if (field.canSpawn(nextTetramino.spawnOffsetLeft)) {
-      this.currentTetramino = nextTetramino;
+    if (field.canSpawn(nextTetromino.spawnOffsetLeft)) {
+      this.currentTetromino = nextTetromino;
     } else {
       this.endGame();
     }
   }
 
   resume() {
-    if (this.currentTetramino.canMove('down')) {
-      this.currentTetramino.move('down');
+    if (this.currentTetromino.canMove('down')) {
+      this.currentTetromino.move('down');
     } else {
       this.landing();
       this.tryToRespawn();

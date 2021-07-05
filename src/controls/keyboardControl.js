@@ -4,22 +4,22 @@ const keyDownHandler = (event) => {
   switch (event.key) {
     case 'Right':
     case 'ArrowRight':
-      tetris.currentTetramino.move('right');
+      tetris.currentTetromino.move('right');
       break;
 
     case 'Left':
     case 'ArrowLeft':
-      tetris.currentTetramino.move('left');
+      tetris.currentTetromino.move('left');
       break;
 
     case 'Up':
     case 'ArrowUp':
-      tetris.currentTetramino.tryToRotate();
+      tetris.currentTetromino.tryToRotate();
       break;
 
     case 'Down':
     case 'ArrowDown':
-      tetris.currentTetramino.drop();
+      tetris.currentTetromino.drop();
   }
 };
 

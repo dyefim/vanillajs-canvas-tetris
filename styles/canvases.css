@@ -15,7 +15,7 @@ canvas {
   z-index: 500;
 }
 
-#nextTetraminoCanvas {
+#nextTetrominoCanvas {
   position: absolute;
   top: 100px;
   right: 0;
