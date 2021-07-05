@@ -4,4 +4,5 @@ export default {
     minify: true,
     target: 'es2017',
   },
+  exclude: ['**/node_modules/**/*', '**/.git/**/*']
 };
