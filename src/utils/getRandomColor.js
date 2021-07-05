@@ -1,18 +1,16 @@
 import getRandomArrayElement from './getRandomArrayElement';
 
 const colors = [
-  '#FF6F61',
-  '#009B77',
-  '#DD4124',
-  '#45B8AC',
-  '#EFC050',
-  '#BC243C',
-  '#C3447A',
-  '#FDAC53',
-  '#0072B5',
-  '#f37735',
-  '#ff5588',
-  '#9C27B0',
+  '#EF5350', // red
+  '#FF7043', // red-orange
+  '#FFB74D', // orange-yellow
+  '#9CCC65', // green
+  '#4DB6AC', // jade
+  '#26C6DA', // teal
+  '#4FC3F7', // blue
+  '#5C6BC0', // blueberry
+  '#AB47BC', // magenta
+  '#F06292', // deep pink
 ];
 
 const getRandomColor = () => getRandomArrayElement(colors);

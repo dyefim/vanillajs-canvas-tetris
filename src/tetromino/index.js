@@ -74,8 +74,6 @@ class Tetromino {
     if (!this.canMove(direction)) {
       return;
     }
-    field.clearCanvas();
-    field.refreshCells();
 
     switch (direction) {
       case 'left': {
@@ -90,6 +88,9 @@ class Tetromino {
         this.position.y += 1;
       }
     }
+
+    field.clearCanvas();
+    field.removeMovableTetramino();
 
     field.summon({ tetromino: this.tetromino, position: this.position });
     field.renderCells(this.color);
@@ -137,6 +138,8 @@ class Tetromino {
 
     this.tetromino = rotated;
 
+    field.clearCanvas();
+    // field.removeMovableTetramino();
     field.renderCells(this.color);
   }
 

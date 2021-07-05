@@ -40,7 +40,7 @@ class Field {
     });
   }
 
-  refreshCells() {
+  removeMovableTetramino() {
     this.cells.forEach((row, rowIndex) => {
       row.forEach((cell, cellIndex) => {
         if (cell === 2) {
