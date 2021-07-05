@@ -12,7 +12,9 @@ class Tetris {
 
     this.accountOfVanishedLines = 9;
     this.speedMultiplier = 1.26;
-    this.gameSpeed = 500;
+
+    this.initialGameSpeed = 500;
+    this.gameSpeed = this.initialGameSpeed;
 
     this.isGameOver = false;
 
@@ -26,7 +28,7 @@ class Tetris {
 
   updateGameSpeed() {
     this.speedMultiplier = 1.26 + this.level * 0.02;
-    this.gameSpeed = 500 / this.speedMultiplier;
+    this.gameSpeed = this.initialGameSpeed / this.speedMultiplier;
   }
 
   changeLevel() {
