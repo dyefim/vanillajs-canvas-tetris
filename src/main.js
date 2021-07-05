@@ -5,47 +5,89 @@ import { renderOnTopOverlay } from './overlays/topOverlay';
 import renderNextTetraminoOverlay from './overlays/nextTetraminoOverlay';
 import score from './score';
 
-export const cellsColumnCount = 10;
+class Tetris {
+  constructor(initialLevel = 0) {
+    this.initialLevel = initialLevel;
+    this.level = 0;
 
-const moveInterval = 500;
+    this.accountOfVanishedLines = 9;
+    this.speedMultiplier = 1.26;
+    this.gameSpeed = 500;
 
-let isGameOver = false;
+    this.isGameOver = false;
 
-const gameOverMessage = 'GAME OVER! \n Your score is: ' + score.points;
+    this.changeLevel();
+    this.updateGameSpeed();
 
-const play = () =>
-  setInterval(() => {
-    if (isGameOver) return;
     renderNextTetraminoOverlay();
+    renderOnTopOverlay();
+    initControls();
+  }
 
+  updateGameSpeed() {
+    this.speedMultiplier = 1.26 + this.level * 0.02;
+    this.gameSpeed = 500 / this.speedMultiplier;
+  }
+
+  changeLevel() {
+    while (this.accountOfVanishedLines >= 10) {
+      const progress = this.level - this.initialLevel;
+
+      const priceOfNextLevel = progress <= 25 ? 10 : 50;
+      this.accountOfVanishedLines -= priceOfNextLevel;
+
+      this.level += 1;
+    }
+  }
+
+  landing() {
+    tetramino.land();
+    field.vanish();
+
+    this.changeLevel();
+    this.updateGameSpeed();
+
+    renderOnTopOverlay(); // update score
+  }
+
+  endGame() {
+    this.isGameOver = true;
+    alert('GAME OVER! \n Your score is: ' + score.points);
+    location.reload();
+  }
+
+  tryToRespawn() {
+    if (tetramino.canSpawn()) {
+      tetramino.respawn();
+    } else {
+      this.endGame();
+    }
+  }
+
+  resume() {
     if (tetramino.canMove('down')) {
       tetramino.move('down');
     } else {
-      tetramino.land();
-      field.vanish();
-
-      renderOnTopOverlay(); // update score
-      if (tetramino.canSpawn()) {
-        tetramino.respawn();
-      } else {
-        isGameOver = true;
-        alert(gameOverMessage);
-        location.reload();
-      }
+      this.landing();
+      this.tryToRespawn();
     }
-  }, moveInterval);
+  }
 
-const game = () => {
-  // field.renderCells();
+  game() {
+    if (this.isGameOver) return;
 
-  renderOnTopOverlay();
-  // renderNextTetraminoOverlay();
+    this.resume();
 
-  // tetramino.summon();
+    setTimeout(() => this.game(), this.gameSpeed);
+  }
 
-  play();
-  // console.table(cells);
-};
+  start() {
+    this.game();
+  }
+}
 
-document.addEventListener('load', initControls());
-document.addEventListener('load', game());
+const tetris = new Tetris();
+
+document.addEventListener('load', tetris.start());
+
+export default tetris;

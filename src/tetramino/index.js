@@ -48,7 +48,7 @@ class Tetramino {
     return spawnPlace.every((p) => p !== 1);
   }
 
-  reset() {
+  reset() { // TODO: mb move thiss logic to Bag
     this.tetramino = bag.draw();
 
     this.recalcSpawnPosition(this.tetramino[0].length);

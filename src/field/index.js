@@ -3,6 +3,7 @@ import score from '../score';
 import createMatrix from '../utils/createMatrix';
 import clearCanvas from '../utils/clearCanvas';
 import { cellsRowCount, cellsColumnCount } from './fieldSizes';
+import tetris from '../main';
 
 const canvas = document.getElementById('gameCanvas');
 const context = canvas.getContext('2d');
@@ -68,7 +69,9 @@ class Field {
       if (row.every((c) => c === 1)) {
         this.cells.splice(index, 1);
         this.cells.unshift(new Array(cellsColumnCount).fill(0));
+
         linesVanished++;
+        tetris.accountOfVanishedLines++;
       }
     });
 
