@@ -34,6 +34,17 @@ class Tetromino {
         let nextCell;
 
         switch (direction) {
+          case 'up': {
+            const prevRow = field.cells[pointY - 1];
+
+            if (!prevRow && point === 2) {
+              return results.push(false);
+            }
+
+            nextCell = prevRow?.[pointX];
+
+            break;
+          }
           case 'down': {
             const nextRow = field.cells[pointY + 1];
 
@@ -76,6 +87,12 @@ class Tetromino {
     }
 
     switch (direction) {
+      case 'up': {
+        if (field.cells[this.position.y - 1]) {
+          this.position.y -= 1;
+        }
+        break;
+      }
       case 'left': {
         this.position.x -= 1;
         break;
@@ -112,16 +129,16 @@ class Tetromino {
     );
   }
 
-  canRotate(tetromino = [...this.tetromino], position = { ...this.position }) {
+  canRotate(position = { ...this.position }) {
     const canMovePoints = [];
 
-    const rotated = this.previewRotation(tetromino);
+    const rotated = this.previewRotation(this.tetromino);
 
     rotated.forEach((row, rowIndex) => {
       row.forEach((cell, cellIndex) => {
         if (cell) {
           const cellToFill =
-            field.cells[position.y + rowIndex][position.x + cellIndex];
+            field.cells[position.y + rowIndex]?.[position.x + cellIndex];
 
           canMovePoints.push(cellToFill !== undefined && cellToFill !== 1);
         }
@@ -148,10 +165,23 @@ class Tetromino {
   }
 
   tryToRotate() {
-    if (this.canRotate(this.tetromino)) {
+    if (this.canRotate()) {
       this.rotate();
     } else {
-      const canWallKickRight = this.canRotate(this.tetromino, {
+      const canFloorJump = this.canRotate({
+        ...this.position,
+        y: this.position.y - 1,
+      });
+
+      if (canFloorJump) {
+        this.move('up');
+        this.rotate();
+        console.log('up + rotate');
+
+        return;
+      }
+
+      const canWallKickRight = this.canRotate({
         ...this.position,
         x: this.position.x + 1,
       });
@@ -163,7 +193,7 @@ class Tetromino {
         return;
       }
 
-      const canWallKickLeft = this.canRotate(this.tetromino, {
+      const canWallKickLeft = this.canRotate({
         ...this.position,
         x: this.position.x - 1,
       });
