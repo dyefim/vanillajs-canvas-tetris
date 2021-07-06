@@ -40,7 +40,7 @@ class Field {
     });
   }
 
-  removeMovableTetramino() {
+  removeOutdatingTetromino() {
     this.cells.forEach((row, rowIndex) => {
       row.forEach((cell, cellIndex) => {
         if (cell === 2) {
@@ -50,24 +50,34 @@ class Field {
     });
   }
 
-  renderSingleCell({ x, y, cell = 0, cellColor }) {
+  moveTetrominoOnMatrix({ tetromino, position }) {
+    this.removeOutdatingTetromino();
+    this.summon({ tetromino, position });
+  }
+
+  rerender(tetrominoColor) {
+    this.clearCanvas();
+    this.renderCells(tetrominoColor);
+  }
+
+  renderSingleCell({ x, y, cell = 0, tetrominoColor }) {
     context.beginPath();
 
     context.rect(x * cellSize, y * cellSize, cellSize, cellSize);
 
     if (cell === 1) {
-      context.fillStyle = '#778';
+      context.fillStyle = '#78909C';
     }
 
-    if (cell === 2 && cellColor) {
-      context.fillStyle = cellColor;
+    if (cell === 2) {
+      context.fillStyle = tetrominoColor;
     }
 
     context.fill();
     context.closePath();
   }
 
-  renderCells(cellColor) {
+  renderCells(tetrominoColor) {
     this.cells.forEach((row, rowIndex) => {
       row.forEach((cell, cellIndex) => {
         if (cell) {
@@ -75,7 +85,7 @@ class Field {
             x: cellIndex,
             y: rowIndex,
             cell,
-            cellColor,
+            tetrominoColor,
           });
         }
       });

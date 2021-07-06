@@ -89,11 +89,12 @@ class Tetromino {
       }
     }
 
-    field.clearCanvas();
-    field.removeMovableTetramino();
+    field.moveTetrominoOnMatrix({
+      tetromino: this.tetromino,
+      position: this.position,
+    });
 
-    field.summon({ tetromino: this.tetromino, position: this.position });
-    field.renderCells(this.color);
+    field.rerender(this.color);
   }
 
   drop() {
@@ -138,9 +139,12 @@ class Tetromino {
 
     this.tetromino = rotated;
 
-    field.clearCanvas();
-    // field.removeMovableTetramino();
-    field.renderCells(this.color);
+    field.moveTetrominoOnMatrix({
+      tetromino: this.tetromino,
+      position: this.position,
+    });
+
+    field.rerender(this.color);
   }
 
   tryToRotate() {
