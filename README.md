@@ -22,3 +22,5 @@ npx http-server build
 ```
 
 ...and then open http://localhost:8080/
+
+...or maybe open on [codesandbox](https://codesandbox.io/s/github/dyefim/vanillajs-canvas-tetris)
